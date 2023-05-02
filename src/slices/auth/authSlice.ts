@@ -4,11 +4,6 @@ import { RegisterProps, LoginProps, tokenProps } from "@/types/auth";
 import { initialState } from "./auth-state";
 import { useNavigate } from "react-router-dom";
 
-// action types
-// Document actions => procesada en los reducers, ejecutadas desde cualquier parte de la aplicacion
-// Initial actions => iniciar un flujo de acciones, se lanzan desde los componentes, nunca son procesados en los reducers, debe iniciar otras acciones
-// Event actions => son ejecutadas por otras acciones y se encargan de ejecutar otras funcione(s).
-
 export const postRegister = createAsyncThunk(
     'auth/registerProcess',
     async (params: RegisterProps, thunkApi) => {
@@ -35,7 +30,6 @@ export const postLogin = createAsyncThunk(
         console.log(errorMessage)
         console.log("fin-----------------------------------")
         if (statusCode === 201) {
-            console.log("entro")
             thunkApi.dispatch(authActions.setToken(token));
             // navigate('/todos');
         } else {
@@ -44,6 +38,7 @@ export const postLogin = createAsyncThunk(
         }
         return responseData;
     });
+
 export const errorAlert = createAsyncThunk(
     'auth/errorAlert',
     async (params: boolean, thunkApi) => {
@@ -60,6 +55,9 @@ const authSlice = createSlice({
         },
         setToken: (state, action: PayloadAction<string>) => {
             state.token = action.payload
+        },
+        setUser: (state, action: PayloadAction<string>) => {
+            state.user = action.payload
         },
         isLogged: (state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload

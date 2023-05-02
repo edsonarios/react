@@ -11,26 +11,27 @@ import { ItemProps } from "@/types/todo-item";
 
 type Props = {}
 
-const TodoList = ({}: Props) => {
+const TodoList = ({ }: Props) => {
   const { data, loading, activeItem } = useSelector((state: RootState) => state.todo);
   const dispatch = useDispatch<AppDispatch>();
-  
+  const { token } = useSelector((state: RootState) => state.auth);
+
   useEffect(() => {
-    dispatch(fetchTodos(''));
+    dispatch(fetchTodos({ searchParam: '', token }));
   }, []);
 
   return (
     <React.Fragment>
       {loading &&
-      <Box textAlign="center">
-        <CircularProgress size={10} />
-      </Box>
+        <Box textAlign="center">
+          <CircularProgress size={10} />
+        </Box>
       }
       {data.map((item: ItemProps) => (
         <React.Fragment key={item.id}>
-          { activeItem?.id === item.id ? 
+          {activeItem?.id === item.id ?
             <TodoItemEdit item={item} /> :
-              <TodoItem item={item} />
+            <TodoItem item={item} />
           }
         </React.Fragment>
       ))}

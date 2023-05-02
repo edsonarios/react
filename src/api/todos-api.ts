@@ -1,15 +1,20 @@
 import { ItemProps, ItemPropsMongo } from "@/types/todo-item";
 import { Api } from './api';
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 export const TODO_PREFIX = 'todos';
 
 export const todosApi = Api.injectEndpoints({
   endpoints: (builder) => ({
-    getAllTodos: builder.query<ItemPropsMongo[], string>({
-      query: (searchParam) => ({
+    getAllTodos: builder.query<ItemPropsMongo[], any>({
+      query: ({ searchParam, token }) => ({
         url: TODO_PREFIX,
         method: 'GET',
-        params: { search: searchParam }
+        params: { search: searchParam },
+        headers: {
+          Authorization: 'Bearer ' + token
+        }
       }),
       providesTags: [{ type: 'Todos', id: 'LIST' }]
     }),

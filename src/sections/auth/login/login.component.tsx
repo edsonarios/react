@@ -21,7 +21,6 @@ const theme = createTheme();
 import { errorAlert, postLogin } from '@/slices/auth/authSlice';
 import { Provider } from 'react-redux';
 import { store } from '@/store/store';
-const { useState } = React;
 import ErrorSnackbar from './error-snackbar'
 
 const AuthLoginPage = () => {
@@ -29,13 +28,10 @@ const AuthLoginPage = () => {
     const { logging, errorSnackbar, errorMessage } = useSelector((state: RootState) => state.auth);
 
     const navigate = useNavigate();
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-    // const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // setLoading(true);
         try {
             const login = await dispatch(postLogin(
                 {

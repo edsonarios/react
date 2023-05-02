@@ -17,15 +17,15 @@ export const postTodo = createAsyncThunk(
     const responseData = response as { data: ItemPropsMongo };
     thunkApi.dispatch(todoActions.add(normalizeTodoData([responseData.data])[0]));
     return responseData;
-});
+  });
 
 export const fetchTodos = createAsyncThunk(
   'todos/fetchTodosProcess',
-  async (params: string, thunkApi) => {
+  async (params, thunkApi) => {
     const response = await thunkApi.dispatch(todosApi.endpoints.getAllTodos.initiate(params));
     thunkApi.dispatch(normalizeTodos(response.data as ItemPropsMongo[]));
     return response;
-});
+  });
 
 export const normalizeTodos = createAsyncThunk(
   'todos/normalizeTodos',
@@ -33,7 +33,7 @@ export const normalizeTodos = createAsyncThunk(
     const dataNormalized = normalizeTodoData(data);
     thunkApi.dispatch(todoActions.load(dataNormalized));
     return null;
-});
+  });
 
 const todoSlice = createSlice({
   name: 'todo',
