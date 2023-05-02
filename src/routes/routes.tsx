@@ -8,40 +8,46 @@ import AuthLoginPage from "@/pages/auth/login-page";
 import AuthRegisterPage from "@/pages/auth/register-page";
 import AuthResetPasswordPage from "@/pages/auth/reset-password-page";
 import AuthRoutes from "./auth";
+
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
+
 const AppRoutes = () => {
   return (
-    <Routes>
-      <Route path="/" element={
-        <Suspense fallback={<LoadingPageIndicator />}>
-          <AuthLoginPage />
-        </Suspense>} />
-      <Route path="/todos" element={
-        <Suspense fallback={<LoadingPageIndicator />}>
-          <TodosPage />
-        </Suspense>} />
-      {/* <AuthRoutes /> */}
-      {/* <Route path="auth" element={<AuthRoutes />} />  */}
-      <Route path="auth" element={<Outlet />}>
-        <Route index element={<Navigate to="login" />} />
-        <Route path="login" element={
+    <Provider store={store}>
+      <Routes>
+        <Route path="/" element={
           <Suspense fallback={<LoadingPageIndicator />}>
             <AuthLoginPage />
           </Suspense>} />
-        <Route path="register" element={
+        <Route path="/todos" element={
           <Suspense fallback={<LoadingPageIndicator />}>
-            <AuthRegisterPage />
+            <TodosPage />
           </Suspense>} />
-        <Route path="resetPassword" element={
+        {/* <AuthRoutes /> */}
+        {/* <Route path="auth" element={<AuthRoutes />} />  */}
+        <Route path="auth" element={<Outlet />}>
+          <Route index element={<Navigate to="login" />} />
+          <Route path="login" element={
+            <Suspense fallback={<LoadingPageIndicator />}>
+              <AuthLoginPage />
+            </Suspense>} />
+          <Route path="register" element={
+            <Suspense fallback={<LoadingPageIndicator />}>
+              <AuthRegisterPage />
+            </Suspense>} />
+          <Route path="resetPassword" element={
+            <Suspense fallback={<LoadingPageIndicator />}>
+              <AuthResetPasswordPage />
+            </Suspense>} />
+        </Route>
+        <Route path="*" element={
           <Suspense fallback={<LoadingPageIndicator />}>
-            <AuthResetPasswordPage />
-          </Suspense>} />
-      </Route>
-      <Route path="*" element={
-        <Suspense fallback={<LoadingPageIndicator />}>
-          <NotFoundPage />
-        </Suspense>
-      } />
-    </Routes>
+            <NotFoundPage />
+          </Suspense>
+        } />
+      </Routes>
+    </Provider>
   )
 };
 

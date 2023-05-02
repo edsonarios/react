@@ -19,8 +19,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store/store';
 const theme = createTheme();
 import { errorAlert, postLogin } from '@/slices/auth/authSlice';
-import { Provider } from 'react-redux';
-import { store } from '@/store/store';
 import ErrorSnackbar from './error-snackbar'
 
 const AuthLoginPage = () => {
@@ -59,80 +57,78 @@ const AuthLoginPage = () => {
     };
 
     return (
-        <Provider store={store}>
-            <ThemeProvider theme={theme}>
-                <Container component="main" maxWidth="xs">
-                    <CssBaseline />
-                    <Box
-                        sx={{
-                            marginTop: 8,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                            <LockOutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Login
-                        </Typography>
-                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                                disabled={logging}
-                            >
-                                {logging ? <CircularProgress size={24} /> : 'Login'}
-                            </Button>
-                            <ErrorSnackbar
-                                open={errorSnackbar}
-                                errorMessage={errorMessage}
-                                handleCloseSnackbar={handleCloseSnackbar}
-                            />
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link to="/auth/resetPassword">
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link to="/auth/register">
-                                        Don't have an account? Register
-                                    </Link>
-                                </Grid>
+        <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Login
+                    </Typography>
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            autoFocus
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox value="remember" color="primary" />}
+                            label="Remember me"
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            disabled={logging}
+                        >
+                            {logging ? <CircularProgress size={24} /> : 'Login'}
+                        </Button>
+                        <ErrorSnackbar
+                            open={errorSnackbar}
+                            errorMessage={errorMessage}
+                            handleCloseSnackbar={handleCloseSnackbar}
+                        />
+                        <Grid container>
+                            <Grid item xs>
+                                <Link to="/auth/resetPassword">
+                                    Forgot password?
+                                </Link>
                             </Grid>
-                        </Box>
+                            <Grid item>
+                                <Link to="/auth/register">
+                                    Don't have an account? Register
+                                </Link>
+                            </Grid>
+                        </Grid>
                     </Box>
-                </Container>
-            </ThemeProvider>
-        </Provider>
+                </Box>
+            </Container>
+        </ThemeProvider>
     )
 };
 

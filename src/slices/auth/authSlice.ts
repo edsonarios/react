@@ -31,6 +31,7 @@ export const postLogin = createAsyncThunk(
         console.log("fin-----------------------------------")
         if (statusCode === 201) {
             thunkApi.dispatch(authActions.setToken(token));
+            thunkApi.dispatch(authActions.isLogged(true));
             // navigate('/todos');
         } else {
             thunkApi.dispatch(authActions.errorMessage(errorMessage));

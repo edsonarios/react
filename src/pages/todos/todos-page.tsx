@@ -1,14 +1,26 @@
-import React from "react";
-import { Provider } from "react-redux";
+import React, { useEffect } from "react";
 import TodoContainer from "@/sections/todos/todo-container/todo-container.component";
-import { store } from "@/store/store";
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
+import { useNavigate } from 'react-router-dom';
 
 const TodosPage = () => {
-  return (
-    <Provider store={store}>
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/');
+    }
+  }, [isLoggedIn, navigate]);
+
+  if (isLoggedIn) {
+    return (
       <TodoContainer />
-    </Provider>
-  );
+    );
+  } else {
+    return null;
+  }
 }
 
 export default TodosPage;
