@@ -19,6 +19,7 @@ const AppRoutes = () => {
         <Route path="/" element={
           <Suspense fallback={<LoadingPageIndicator />}>
             <AuthLoginPage />
+            {/* <TodosPage /> */}
           </Suspense>} />
         <Route path="/todos" element={
           <Suspense fallback={<LoadingPageIndicator />}>

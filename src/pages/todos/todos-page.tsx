@@ -8,19 +8,19 @@ const TodosPage = () => {
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      navigate('/');
-    }
-  }, [isLoggedIn, navigate]);
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     navigate('/');
+  //   }
+  // }, [isLoggedIn, navigate]);
 
-  if (isLoggedIn) {
+  // if (isLoggedIn) {
     return (
       <TodoContainer />
     );
-  } else {
-    return null;
-  }
+  // } else {
+  //   return null;
+  // }
 }
 
 export default TodosPage;

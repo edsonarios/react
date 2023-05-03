@@ -26,8 +26,15 @@ export const todosApi = Api.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'Todos', id: 'LIST' }]
     }),
+    deleteTodo: builder.query<ItemPropsMongo[], any>({
+      query: (idTodo) => ({
+        url: TODO_PREFIX + "s/" + idTodo,
+        method: 'DELETE',
+      }),
+      providesTags: [{ type: 'Todos', id: 'DELETE' }]
+    }),
   }),
   overrideExisting: true
 });
 
-export const { useGetAllTodosQuery, useAddTodoMutation } = todosApi;
+export const { useGetAllTodosQuery, useAddTodoMutation, useDeleteTodoQuery } = todosApi;

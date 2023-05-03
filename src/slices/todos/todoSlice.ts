@@ -3,11 +3,12 @@ import { todosApi } from "@/api/todos-api";
 import { ItemProps, ItemPropsMongo } from "@/types/todo-item";
 import { normalizeTodoData } from "@/utils/normailize-todo";
 import { initialState } from "./initial-state";
-
+import React, { useRef } from 'react';
 // action types
 // Document actions => procesada en los reducers, ejecutadas desde cualquier parte de la aplicacion
 // Initial actions => iniciar un flujo de acciones, se lanzan desde los componentes, nunca son procesados en los reducers, debe iniciar otras acciones
 // Event actions => son ejecutadas por otras acciones y se encargan de ejecutar otras funcione(s).
+
 
 export const postTodo = createAsyncThunk(
   'todos/postTodoProcess',
@@ -35,6 +36,17 @@ export const normalizeTodos = createAsyncThunk(
     return null;
   });
 
+export const deleteTodo = createAsyncThunk(
+  'todos/deleteTodoProcess',
+  async (item: Partial<ItemPropsMongo>, thunkApi) => {
+    thunkApi.dispatch(todoActions.remove(item._id));
+    const response = await thunkApi.dispatch(todosApi.endpoints.deleteTodo.initiate(item._id));
+    const responseData = response as { data: Partial<ItemPropsMongo> };
+    if (!responseData.isSuccess) {
+      thunkApi.dispatch(todoActions.rollbackTodo(item));
+    }
+    return responseData;
+  });
 const todoSlice = createSlice({
   name: 'todo',
   initialState: initialState,
@@ -54,7 +66,13 @@ const todoSlice = createSlice({
     remove: (state, action: PayloadAction<string>) => {
       const selectItemIndex = state.data.findIndex(item => item.id === action.payload);
       state.data.splice(selectItemIndex, 1);
-    }
+    },
+    rollbackTodo: (state, action: PayloadAction<ItemProps>) => {
+      const isUserAlreadyDefined = state.data.some(data => data.id === action.payload.id)
+      if (!isUserAlreadyDefined) {
+        state.data.push(action.payload)
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTodos.pending, (state, action) => {
