@@ -1,4 +1,4 @@
-import { ItemProps, ItemPropsMongo } from "@/types/todo-item";
+import { ItemEditProps, ItemProps, ItemPropsMongo } from "@/types/todo-item";
 import { Api } from './api';
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -24,14 +24,22 @@ export const todosApi = Api.injectEndpoints({
         method: 'POST',
         body: body
       }),
-      invalidatesTags: [{ type: 'Todos', id: 'LIST' }]
+      invalidatesTags: [{ type: 'Todos', id: 'POST' }]
     }),
-    deleteTodo: builder.query<ItemPropsMongo[], any>({
+    deleteTodo: builder.query<ItemPropsMongo, string>({
       query: (idTodo) => ({
         url: TODO_PREFIX + "s/" + idTodo,
         method: 'DELETE',
       }),
       providesTags: [{ type: 'Todos', id: 'DELETE' }]
+    }),
+    editTodo: builder.query<string, ItemEditProps>({
+      query: ({id, body}) => ({
+        url: TODO_PREFIX + "/" + id,
+        method: 'PUT',
+        body: body,
+      }),
+      providesTags: [{ type: 'Todos', id: 'PUT' }]
     }),
   }),
   overrideExisting: true

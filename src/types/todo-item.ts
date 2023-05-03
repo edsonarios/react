@@ -14,3 +14,8 @@ export type ItemPropsMongo = {
   description: string;
   status: ItemStatus;
 };
+
+export type ItemEditProps = {
+  id: string;
+  body: ItemProps;
+};

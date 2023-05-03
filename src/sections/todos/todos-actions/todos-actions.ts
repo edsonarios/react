@@ -1,6 +1,6 @@
-import { deleteTodo, fetchTodos } from "@/slices/todos/todoSlice";
+import { deleteTodo, fetchTodos, editTodo } from "@/slices/todos/todoSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { ItemProps } from "@/types/todo-item";
+import { ItemEditPropsMongo, ItemProps, ItemPropsMongo, ItemStatus } from "@/types/todo-item";
 import { Types } from "@/reducer/actions";
 import { useEffect } from "react";
 
@@ -10,6 +10,7 @@ export const actionsTodo = () => {
     const { token } = useAppSelector(state => state.auth);
 
     const selectionItem = (item: ItemProps) => {
+        console.log(item)
         dispatch({ type: Types.Select, payload: item.id });
     }
 
@@ -23,5 +24,20 @@ export const actionsTodo = () => {
         }, []);
     }
 
-    return { removeTodo, selectionItem, listTodos }
+    const editStatusTodo = (item: ItemProps) => {
+        console.log(item)
+        dispatch(editTodo(
+            {
+                id: item.id,
+                body: {
+                    id: item.id,
+                    description: item.description,
+                    status: item.status === ItemStatus.IN_PROGRESS ? ItemStatus.DONE : ItemStatus.IN_PROGRESS
+                },
+            }));
+    }
+
+
+
+    return { removeTodo, selectionItem, listTodos, editStatusTodo }
 }
