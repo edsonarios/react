@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { todosApi } from "@/api/todos-api";
-import { ItemEditProps, ItemProps, ItemPropsMongo } from "@/types/todo-item";
-import { normalizeTodoData } from "@/utils/normailize-todo";
+import { ItemEditProps, ItemProps, ItemPropsMongo, responseProps } from "@/types/todo-item";
+import { normalizeData, normalizeTodoData } from "@/utils/normailize-todo";
 import { initialState } from "./initial-state";
 import React, { useRef } from 'react';
 import { authActions } from "../auth/authSlice";
@@ -40,10 +40,11 @@ export const normalizeTodos = createAsyncThunk(
 
 export const deleteTodo = createAsyncThunk(
   'todos/deleteTodoProcess',
-  async (item: Partial<ItemPropsMongo>, thunkApi) => {
-    thunkApi.dispatch(todoActions.remove(item._id));
-    const response = await thunkApi.dispatch(todosApi.endpoints.deleteTodo.initiate(item._id));
-    const responseData = response as { data: Partial<ItemPropsMongo> };
+  async (item: ItemProps, thunkApi) => {
+    thunkApi.dispatch(todoActions.remove(item.id));
+    const response = await thunkApi.dispatch(todosApi.endpoints.deleteTodo.initiate(item.id));
+    console.log(response)
+    const responseData = response as Partial<responseProps>;
     if (!responseData.isSuccess) {
       thunkApi.dispatch(todoActions.rollbackTodo(item));
       thunkApi.dispatch(authActions.errorMessage('Error: Fails deleting item'));
@@ -54,11 +55,13 @@ export const deleteTodo = createAsyncThunk(
 
 export const editTodo = createAsyncThunk(
   'todos/editTodoProcess',
-  async (item: Partial<ItemEditProps>, thunkApi) => {
+  async (item: ItemEditProps, thunkApi) => {
     thunkApi.dispatch(todoActions.remove(item.id));
     const response = await thunkApi.dispatch(todosApi.endpoints.editTodo.initiate(item));
-    const responseData = response as { data: ItemProps };
-    thunkApi.dispatch(todoActions.add(normalizeTodoData([responseData.data])[0]));
+    console.log(response)
+    const responseData = response as Partial<responseProps>;
+
+    thunkApi.dispatch(todoActions.add(normalizeData(responseData.data)));
     return responseData;
   });
 
@@ -101,6 +104,9 @@ const todoSlice = createSlice({
     });
     builder.addCase(postTodo.fulfilled, (state, action) => {
       state.addingItem = false;
+    });
+    builder.addCase(deleteTodo.fulfilled, (state, action) => {
+      console.log(state, action)
     });
   }
 });

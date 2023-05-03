@@ -19,3 +19,17 @@ export type ItemEditProps = {
   id: string;
   body: ItemProps;
 };
+
+export type errorResponseProps = {
+  status: string
+  originalStatus: number
+}
+
+export type responseProps = {
+  status: string;
+  endpointName: string;
+  isSuccess: boolean;
+  isError: boolean;
+  data: ItemPropsMongo | undefined;
+  error: errorResponseProps;
+}
