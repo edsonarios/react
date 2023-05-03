@@ -1,24 +1,27 @@
-import React, { useEffect } from "react";
+import React from "react";
 import TodoItemEdit from "../todo-item-edit/todo-item-edit.component";
 import TodoItem from "../todo-item/todo.item.component";
-import { useSelector, useDispatch } from 'react-redux';
-
 import CircularProgress from '@mui/material/CircularProgress';
 import { Box } from "@mui/system";
-import { AppDispatch, RootState } from "@/store/store";
-import { fetchTodos } from "@/slices/todos/todoSlice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { ItemProps } from "@/types/todo-item";
+import { actionsTodo } from "../todos-actions/todos-actions";
+import { errorAlert } from "@/slices/auth/authSlice";
+import ErrorSnackbar from "@/components/alert/error-snackbar";
 
 type Props = {}
 
 const TodoList = ({ }: Props) => {
-  const { data, loading, activeItem } = useSelector((state: RootState) => state.todo);
-  const dispatch = useDispatch<AppDispatch>();
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { data, loading, activeItem } = useAppSelector(state => state.todo);
+  const { listTodos } = actionsTodo()
+  const dispatch = useAppDispatch();
+  const { errorSnackbar, errorMessage } = useAppSelector(state => state.auth);
+  listTodos()
 
-  useEffect(() => {
-    dispatch(fetchTodos({ searchParam: '', token }));
-  }, []);
+  const handleCloseSnackbar = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') return
+    dispatch(errorAlert(false))
+  };
 
   return (
     <React.Fragment>
@@ -35,6 +38,11 @@ const TodoList = ({ }: Props) => {
           }
         </React.Fragment>
       ))}
+      <ErrorSnackbar
+        open={errorSnackbar}
+        errorMessage={errorMessage}
+        handleCloseSnackbar={handleCloseSnackbar}
+      />
     </React.Fragment>
   );
 };

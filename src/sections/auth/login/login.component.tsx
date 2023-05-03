@@ -16,14 +16,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/store/store';
+import { AppDispatch, RootState, useAppDispatch, useAppSelector } from '@/store/store';
 const theme = createTheme();
 import { errorAlert, postLogin } from '@/slices/auth/authSlice';
-import ErrorSnackbar from './error-snackbar'
+import ErrorSnackbar from '@/components/alert/error-snackbar';
 
 const AuthLoginPage = () => {
-    const dispatch = useDispatch<AppDispatch>();
-    const { logging, errorSnackbar, errorMessage } = useSelector((state: RootState) => state.auth);
+    const dispatch = useAppDispatch();
+    const { logging, errorSnackbar, errorMessage } = useAppSelector(state => state.auth);
 
     const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ const AuthLoginPage = () => {
             const login = await dispatch(postLogin(
                 {
                     email: 'edson@mail',
-                    password: '123456',
+                    password: '12345',
                 }
                 // {
                 //     email: data.get('email') as string,

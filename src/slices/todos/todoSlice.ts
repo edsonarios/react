@@ -4,6 +4,7 @@ import { ItemProps, ItemPropsMongo } from "@/types/todo-item";
 import { normalizeTodoData } from "@/utils/normailize-todo";
 import { initialState } from "./initial-state";
 import React, { useRef } from 'react';
+import { authActions } from "../auth/authSlice";
 // action types
 // Document actions => procesada en los reducers, ejecutadas desde cualquier parte de la aplicacion
 // Initial actions => iniciar un flujo de acciones, se lanzan desde los componentes, nunca son procesados en los reducers, debe iniciar otras acciones
@@ -44,9 +45,12 @@ export const deleteTodo = createAsyncThunk(
     const responseData = response as { data: Partial<ItemPropsMongo> };
     if (!responseData.isSuccess) {
       thunkApi.dispatch(todoActions.rollbackTodo(item));
+      thunkApi.dispatch(authActions.errorMessage('Error: Fails deleting item'));
+      thunkApi.dispatch(authActions.errorSnackbar(true));
     }
     return responseData;
   });
+
 const todoSlice = createSlice({
   name: 'todo',
   initialState: initialState,

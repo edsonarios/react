@@ -24,17 +24,15 @@ export const postLogin = createAsyncThunk(
         const statusCode = responseData.error.originalStatus
         const errorMessage = responseData.error.data.message
 
-        console.log("dentro del thunk")
         console.log(token)
         console.log(statusCode)
         console.log(errorMessage)
-        console.log("fin-----------------------------------")
         if (statusCode === 201) {
             thunkApi.dispatch(authActions.setToken(token));
             thunkApi.dispatch(authActions.isLogged(true));
             // navigate('/todos');
         } else {
-            thunkApi.dispatch(authActions.errorMessage(errorMessage));
+            thunkApi.dispatch(authActions.errorMessage('Login failed: ' + errorMessage));
             thunkApi.dispatch(authActions.errorSnackbar(true));
         }
         return responseData;

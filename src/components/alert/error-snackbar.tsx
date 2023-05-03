@@ -20,7 +20,7 @@ const ErrorSnackbar: React.FC<ErrorSnackbarProps> = ({
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         >
             <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
-                Login failed. {errorMessage}
+                {errorMessage}
             </Alert>
         </Snackbar>
     );
