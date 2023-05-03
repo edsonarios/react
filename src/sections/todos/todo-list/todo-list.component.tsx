@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import TodoItemEdit from "../todo-item-edit/todo-item-edit.component";
 import TodoItem from "../todo-item/todo.item.component";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -13,9 +13,10 @@ type Props = {}
 
 const TodoList = ({ }: Props) => {
   const { data, loading, activeItem } = useAppSelector(state => state.todo);
-  const { listTodos } = actionsTodo()
+  const { listTodos, sortedData } = actionsTodo()
   const dispatch = useAppDispatch();
   const { errorSnackbar, errorMessage } = useAppSelector(state => state.auth);
+
   listTodos()
 
   const handleCloseSnackbar = (event?: React.SyntheticEvent, reason?: string) => {
@@ -30,7 +31,7 @@ const TodoList = ({ }: Props) => {
           <CircularProgress size={10} />
         </Box>
       }
-      {data.map((item: ItemProps) => (
+      {sortedData(data).map((item: ItemProps) => (
         <React.Fragment key={item.id}>
           {activeItem?.id === item.id ?
             <TodoItemEdit item={item} /> :

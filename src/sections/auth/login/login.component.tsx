@@ -32,14 +32,14 @@ const AuthLoginPage = () => {
         const data = new FormData(event.currentTarget);
         try {
             const login = await dispatch(postLogin(
-                {
-                    email: 'edson@mail',
-                    password: '12345',
-                }
                 // {
-                //     email: data.get('email') as string,
-                //     password: data.get('password') as string,
+                //     email: 'edson@mail',
+                //     password: '12345',
                 // }
+                {
+                    email: data.get('email') as string,
+                    password: data.get('password') as string,
+                }
             ));
             if (login.payload.error.originalStatus === 201) {
                 navigate('/todos');

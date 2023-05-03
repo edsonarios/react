@@ -5,6 +5,7 @@ import { normalizeTodoData } from "@/utils/normailize-todo";
 import { initialState } from "./initial-state";
 import React, { useRef } from 'react';
 import { authActions } from "../auth/authSlice";
+
 // action types
 // Document actions => procesada en los reducers, ejecutadas desde cualquier parte de la aplicacion
 // Initial actions => iniciar un flujo de acciones, se lanzan desde los componentes, nunca son procesados en los reducers, debe iniciar otras acciones
@@ -54,8 +55,8 @@ export const deleteTodo = createAsyncThunk(
 export const editTodo = createAsyncThunk(
   'todos/editTodoProcess',
   async (item: Partial<ItemEditProps>, thunkApi) => {
-    const response = await thunkApi.dispatch(todosApi.endpoints.editTodo.initiate(item));
     thunkApi.dispatch(todoActions.remove(item.id));
+    const response = await thunkApi.dispatch(todosApi.endpoints.editTodo.initiate(item));
     const responseData = response as { data: ItemProps };
     thunkApi.dispatch(todoActions.add(normalizeTodoData([responseData.data])[0]));
     return responseData;

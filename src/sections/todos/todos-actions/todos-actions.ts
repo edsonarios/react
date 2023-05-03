@@ -1,8 +1,8 @@
 import { deleteTodo, fetchTodos, editTodo } from "@/slices/todos/todoSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { ItemEditPropsMongo, ItemProps, ItemPropsMongo, ItemStatus } from "@/types/todo-item";
+import { ItemProps, ItemStatus } from "@/types/todo-item";
 import { Types } from "@/reducer/actions";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 
 export const actionsTodo = () => {
@@ -25,7 +25,6 @@ export const actionsTodo = () => {
     }
 
     const editStatusTodo = (item: ItemProps) => {
-        console.log(item)
         dispatch(editTodo(
             {
                 id: item.id,
@@ -37,7 +36,14 @@ export const actionsTodo = () => {
             }));
     }
 
+    const sortedData = (data: ItemProps[]) => useMemo(() => {
+        const noDoneTodo = data.filter(item => item.status !== "DONE")
+            .sort((a, b) => a.description.localeCompare(b.description));
+        const doneTodo = data.filter(item => item.status === "DONE")
+            .sort((a, b) => a.description.localeCompare(b.description));
 
+        return noDoneTodo.concat(doneTodo);
+    }, [data]);
 
-    return { removeTodo, selectionItem, listTodos, editStatusTodo }
+    return { removeTodo, selectionItem, listTodos, editStatusTodo, sortedData }
 }
