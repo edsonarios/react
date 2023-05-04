@@ -11,19 +11,19 @@ import {
     Avatar,
     Typography,
     CircularProgress,
+    SnackbarCloseReason,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, useAppDispatch, useAppSelector } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 const theme = createTheme();
 import { errorAlert, postLogin } from '@/slices/auth/authSlice';
 import ErrorSnackbar from '@/components/alert/error-snackbar';
 
 const AuthLoginPage = () => {
     const dispatch = useAppDispatch();
-    const { logging, errorSnackbar, errorMessage } = useAppSelector(state => state.auth);
+    const { logging, errorSnackbar, message, typeAlert } = useAppSelector(state => state.auth);
 
     const navigate = useNavigate();
 
@@ -51,9 +51,8 @@ const AuthLoginPage = () => {
         }
     };
 
-    const handleCloseSnackbar = (event?: React.SyntheticEvent, reason?: string) => {
-        if (reason === 'clickaway') return
-        dispatch(errorAlert(false))
+    const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
+        dispatch(errorAlert(false));
     };
 
     return (
@@ -110,8 +109,9 @@ const AuthLoginPage = () => {
                         </Button>
                         <ErrorSnackbar
                             open={errorSnackbar}
-                            errorMessage={errorMessage}
+                            message={message}
                             handleCloseSnackbar={handleCloseSnackbar}
+                            typeAlert={typeAlert}
                         />
                         <Grid container>
                             <Grid item xs>

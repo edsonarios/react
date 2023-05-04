@@ -2,8 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authApi } from "@/api/auth-api";
 import { RegisterProps, LoginProps, tokenProps } from "@/types/auth";
 import { initialState } from "./auth-state";
-import { useNavigate } from "react-router-dom";
-
+import { AlertColor } from '@mui/material';
 export const postRegister = createAsyncThunk(
     'auth/registerProcess',
     async (params: RegisterProps, thunkApi) => {
@@ -19,7 +18,6 @@ export const postLogin = createAsyncThunk(
         const response = await thunkApi.dispatch(authApi.endpoints.login.initiate(params));
         const responseData = response as { data: Partial<tokenProps> };
         console.log(responseData)
-        // const navigate = useNavigate();
         const token = responseData.error.data
         const statusCode = responseData.error.originalStatus
         const errorMessage = responseData.error.data.message
@@ -30,10 +28,11 @@ export const postLogin = createAsyncThunk(
         if (statusCode === 201) {
             thunkApi.dispatch(authActions.setToken(token));
             thunkApi.dispatch(authActions.isLogged(true));
-            // navigate('/todos');
+
         } else {
-            thunkApi.dispatch(authActions.errorMessage('Login failed: ' + errorMessage));
+            thunkApi.dispatch(authActions.message('Login failed: ' + errorMessage));
             thunkApi.dispatch(authActions.errorSnackbar(true));
+            thunkApi.dispatch(authActions.typeAlert("error"));
         }
         return responseData;
     });
@@ -64,8 +63,11 @@ const authSlice = createSlice({
         errorSnackbar: (state, action: PayloadAction<boolean>) => {
             state.errorSnackbar = action.payload
         },
-        errorMessage: (state, action: PayloadAction<string>) => {
-            state.errorMessage = action.payload
+        message: (state, action: PayloadAction<string>) => {
+            state.message = action.payload
+        },
+        typeAlert: (state, action: PayloadAction<AlertColor>) => {
+            state.typeAlert = action.payload
         },
     },
     extraReducers: (builder) => {

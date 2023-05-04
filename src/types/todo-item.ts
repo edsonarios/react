@@ -15,6 +15,11 @@ export type ItemPropsMongo = {
   status: ItemStatus;
 };
 
+export type fechTodosProps = {
+  searchParam: string
+  token: string
+}
+
 export type ItemEditProps = {
   id: string;
   body: ItemProps;

@@ -28,7 +28,7 @@ export const todosApi = Api.injectEndpoints({
     }),
     deleteTodo: builder.query<ItemPropsMongo, string>({
       query: (idTodo) => ({
-        url: TODO_PREFIX + "/" + idTodo,
+        url: TODO_PREFIX + "s/" + idTodo,
         method: 'DELETE',
       }),
       providesTags: [{ type: 'Todos', id: 'DELETE' }]

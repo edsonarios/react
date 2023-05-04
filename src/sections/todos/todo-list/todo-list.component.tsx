@@ -8,6 +8,7 @@ import { ItemProps } from "@/types/todo-item";
 import { actionsTodo } from "../todos-actions/todos-actions";
 import { errorAlert } from "@/slices/auth/authSlice";
 import ErrorSnackbar from "@/components/alert/error-snackbar";
+import { SnackbarCloseReason } from "@mui/material";
 
 type Props = {}
 
@@ -15,13 +16,12 @@ const TodoList = ({ }: Props) => {
   const { data, loading, activeItem } = useAppSelector(state => state.todo);
   const { listTodos, sortedData } = actionsTodo()
   const dispatch = useAppDispatch();
-  const { errorSnackbar, errorMessage } = useAppSelector(state => state.auth);
+  const { errorSnackbar, message, typeAlert } = useAppSelector(state => state.auth);
 
   listTodos()
 
-  const handleCloseSnackbar = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') return
-    dispatch(errorAlert(false))
+  const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
+    dispatch(errorAlert(false));
   };
 
   return (
@@ -41,8 +41,9 @@ const TodoList = ({ }: Props) => {
       ))}
       <ErrorSnackbar
         open={errorSnackbar}
-        errorMessage={errorMessage}
+        message={message}
         handleCloseSnackbar={handleCloseSnackbar}
+        typeAlert={typeAlert}
       />
     </React.Fragment>
   );

@@ -1,17 +1,25 @@
 import * as React from 'react';
-import { Snackbar, Alert } from '@mui/material';
+import { Snackbar, Alert, AlertColor, SnackbarCloseReason } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { errorAlert } from '@/slices/auth/authSlice';
 
 interface ErrorSnackbarProps {
     open: boolean;
-    errorMessage: string;
-    handleCloseSnackbar: (event?: React.SyntheticEvent, reason?: string) => void;
+    message: string;
+    typeAlert: AlertColor;
+    handleCloseSnackbar: (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => void;
 }
 
 const ErrorSnackbar: React.FC<ErrorSnackbarProps> = ({
     open,
-    errorMessage,
+    message,
     handleCloseSnackbar,
+    typeAlert
 }) => {
+    const handleAlertClose = (event: React.SyntheticEvent<Element, Event>) => {
+        handleCloseSnackbar(event, 'clickaway');
+    };
+
     return (
         <Snackbar
             open={open}
@@ -19,8 +27,8 @@ const ErrorSnackbar: React.FC<ErrorSnackbarProps> = ({
             onClose={handleCloseSnackbar}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         >
-            <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
-                {errorMessage}
+            <Alert onClose={handleAlertClose} severity={typeAlert} sx={{ width: '100%' }}>
+                {message}
             </Alert>
         </Snackbar>
     );

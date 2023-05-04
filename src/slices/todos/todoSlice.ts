@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { todosApi } from "@/api/todos-api";
-import { ItemEditProps, ItemProps, ItemPropsMongo, responseProps } from "@/types/todo-item";
+import { fechTodosProps, ItemEditProps, ItemProps, ItemPropsMongo, responseProps } from "@/types/todo-item";
 import { normalizeData, normalizeTodoData } from "@/utils/normailize-todo";
 import { initialState } from "./initial-state";
 import React, { useRef } from 'react';
@@ -24,7 +24,7 @@ export const postTodo = createAsyncThunk(
 
 export const fetchTodos = createAsyncThunk(
   'todos/fetchTodosProcess',
-  async (params, thunkApi) => {
+  async (params: fechTodosProps, thunkApi) => {
     const response = await thunkApi.dispatch(todosApi.endpoints.getAllTodos.initiate(params));
     thunkApi.dispatch(normalizeTodos(response.data as ItemPropsMongo[]));
     return response;
@@ -47,8 +47,9 @@ export const deleteTodo = createAsyncThunk(
     const responseData = response as Partial<responseProps>;
     if (!responseData.isSuccess) {
       thunkApi.dispatch(todoActions.rollbackTodo(item));
-      thunkApi.dispatch(authActions.errorMessage('Error: Fails deleting item'));
+      thunkApi.dispatch(authActions.message('Error: Fails deleting item'));
       thunkApi.dispatch(authActions.errorSnackbar(true));
+      thunkApi.dispatch(authActions.typeAlert("error"));
     }
     return responseData;
   });

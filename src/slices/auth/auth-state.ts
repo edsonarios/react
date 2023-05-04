@@ -1,4 +1,4 @@
-import ErrorSnackbar from "@/sections/auth/login/error-snackbar";
+import { AlertColor } from '@mui/material';
 
 export type AuthProps = {
     user: string;
@@ -6,7 +6,8 @@ export type AuthProps = {
     logging: boolean
     isLoggedIn: boolean
     errorSnackbar: boolean
-    errorMessage: string
+    message: string
+    typeAlert: AlertColor
 }
 
 export const initialState: AuthProps = {
@@ -15,5 +16,6 @@ export const initialState: AuthProps = {
     logging: false,
     isLoggedIn: false,
     errorSnackbar: false,
-    errorMessage: ''
+    message: '',
+    typeAlert: "info"
 };
