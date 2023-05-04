@@ -1,5 +1,4 @@
 
-import React from "react";
 import { ItemProps, ItemStatus } from "@/types/todo-item";
 import { DoneStatus, InProgressStatus, StatusContainer } from "./todo-item.status.styles";
 import { actionsTodo } from "../todos-actions/todos-actions";

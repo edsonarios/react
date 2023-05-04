@@ -1,4 +1,3 @@
-import React from "react";
 import TodoItemStatus from "../todo-item-status/todo-item-status.component";
 import { ButtonContainer, IconRemove, TodoDescription, Wrapper } from "./todo-item.styles";
 import { ItemProps, ItemStatus } from "@/types/todo-item";

@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import LoadingPageIndicator from "@/components/loading-page-indicator/loading-page-indicator.component";
 

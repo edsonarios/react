@@ -15,7 +15,7 @@ class TodoContainer extends React.Component<{}, StateProps> {
   render() {
     return (
       <Container maxWidth="xs">
-        <Header title="Todos"/>
+        <Header title="Todos" />
         <TodoList />
         <Footer />
       </Container>

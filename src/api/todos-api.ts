@@ -1,7 +1,5 @@
 import { ItemEditProps, ItemProps, ItemPropsMongo } from "@/types/todo-item";
 import { Api } from './api';
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 
 export const TODO_PREFIX = 'todos';
 

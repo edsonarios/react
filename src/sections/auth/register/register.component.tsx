@@ -1,8 +1,6 @@
 import * as React from 'react';
 import {
     TextField,
-    FormControlLabel,
-    Checkbox,
     Button,
     Grid,
     Box,

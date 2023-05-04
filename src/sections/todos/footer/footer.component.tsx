@@ -1,4 +1,3 @@
-import React from "react";
 import { Box } from "@mui/system";
 import { Skeleton, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,12 +8,12 @@ import { AddIcon, AddText, Wrapper } from "./footer.styles";
 
 const Footer = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { addingItem }  = useSelector((state: RootState) => state.todo);
+  const { addingItem } = useSelector((state: RootState) => state.todo);
 
   const handleClick = async () => {
     try {
       dispatch(postTodo({ description: 'new Item', status: ItemStatus.IN_PROGRESS }));
-    } catch(error: any) {
+    } catch (error: any) {
       if (error instanceof Error) {
         console.log(error.message);
       }
@@ -23,7 +22,7 @@ const Footer = () => {
 
   return (
     <>
-      { addingItem && (
+      {addingItem && (
         <Box display="flex" alignItems="center" paddingX={1}>
           <Box width={16}>
             <Typography variant="overline">
@@ -38,7 +37,7 @@ const Footer = () => {
         </Box>
       )}
       <Wrapper onClick={handleClick} disabled={addingItem}>
-        <AddIcon/>
+        <AddIcon />
         <AddText>Add new Item</AddText>
       </Wrapper>
     </>

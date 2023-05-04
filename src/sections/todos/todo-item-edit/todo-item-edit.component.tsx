@@ -29,7 +29,7 @@ const TodoItemEdit = ({ item }: Props) => {
 
   return (
     <Wrapper>
-      <TodoItemStatus item={item}/>
+      <TodoItemStatus item={item} />
       <form style={{ display: 'inline' }} onSubmit={handleUpdateItem}>
         <CustomTextField
           id={`todo-item-${item.id}`}
@@ -41,7 +41,7 @@ const TodoItemEdit = ({ item }: Props) => {
         />
       </form>
     </Wrapper>
-);
+  );
 }
 
 export default TodoItemEdit;

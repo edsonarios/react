@@ -3,7 +3,6 @@ import { todosApi } from "@/api/todos-api";
 import { fechTodosProps, ItemEditProps, ItemProps, ItemPropsMongo, responseProps } from "@/types/todo-item";
 import { normalizeData, normalizeTodoData } from "@/utils/normailize-todo";
 import { initialState } from "./initial-state";
-import React, { useRef } from 'react';
 import { authActions } from "../auth/authSlice";
 
 // action types

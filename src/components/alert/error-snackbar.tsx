@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { Snackbar, Alert, AlertColor, SnackbarCloseReason } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { errorAlert } from '@/slices/auth/authSlice';
 
 interface ErrorSnackbarProps {
     open: boolean;

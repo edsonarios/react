@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import AuthLoginPage from "@/sections/auth/login/login.component";

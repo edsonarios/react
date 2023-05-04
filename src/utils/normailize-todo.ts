@@ -4,4 +4,4 @@ export const normalizeTodoData = (data: ItemPropsMongo[]) => data.map(item => ({
 
 export const normalizeData = (data: ItemPropsMongo) => {
     return { ...data, id: data._id };
-  };
+};
