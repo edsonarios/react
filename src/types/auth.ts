@@ -8,10 +8,11 @@ export type LoginProps = {
     password: string;
 };
 
-export type tokenProps = {
+export type loginResponseProps = {
     error: {
-        data: string
-        error: string
+        status: number | string
         originalStatus: number
+        data: { message: string } | string
+        error: string
     }
 }

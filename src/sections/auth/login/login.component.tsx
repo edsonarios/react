@@ -18,8 +18,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 const theme = createTheme();
-import { errorAlert, postLogin } from '@/slices/auth/authSlice';
+import { errorAlert, login } from '@/slices/auth/authSlice';
 import ErrorSnackbar from '@/components/alert/error-snackbar';
+import { loginResponseProps } from '@/types/auth';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const AuthLoginPage = () => {
     const dispatch = useAppDispatch();
@@ -30,8 +32,9 @@ const AuthLoginPage = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+
         try {
-            const login = await dispatch(postLogin(
+            const responseLogin: loginResponseProps = unwrapResult(await dispatch(login(
                 // {
                 //     email: 'edson@mail',
                 //     password: '12345',
@@ -40,8 +43,8 @@ const AuthLoginPage = () => {
                     email: data.get('email') as string,
                     password: data.get('password') as string,
                 }
-            ));
-            if (login.payload.error.originalStatus === 201) {
+            )));
+            if (responseLogin.error.originalStatus === 201) {
                 navigate('/todos');
             }
         } catch (error: any) {

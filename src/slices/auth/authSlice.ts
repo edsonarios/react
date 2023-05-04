@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authApi } from "@/api/auth-api";
-import { RegisterProps, LoginProps, tokenProps } from "@/types/auth";
+import { RegisterProps, LoginProps, loginResponseProps } from "@/types/auth";
 import { initialState } from "./auth-state";
 import { AlertColor } from '@mui/material';
+import { extractErrorMessage, extractToken } from "@/utils/utils";
 export const postRegister = createAsyncThunk(
     'auth/registerProcess',
     async (params: RegisterProps, thunkApi) => {
@@ -11,25 +12,21 @@ export const postRegister = createAsyncThunk(
         return responseData;
     });
 
-export const postLogin = createAsyncThunk(
+export const login = createAsyncThunk(
     'auth/loginProcess',
     async (params: LoginProps, thunkApi) => {
         thunkApi.dispatch(authActions.logging(true));
         const response = await thunkApi.dispatch(authApi.endpoints.login.initiate(params));
-        const responseData = response as { data: Partial<tokenProps> };
-        console.log(responseData)
-        const token = responseData.error.data
-        const statusCode = responseData.error.originalStatus
-        const errorMessage = responseData.error.data.message
+        const responseData = response as loginResponseProps;
 
-        console.log(token)
-        console.log(statusCode)
-        console.log(errorMessage)
-        if (statusCode === 201) {
+        const token = responseData.error?.data && extractToken(responseData.error.data)
+        const statusCode = responseData.error?.originalStatus
+
+        if (statusCode === 201 && token) {
             thunkApi.dispatch(authActions.setToken(token));
             thunkApi.dispatch(authActions.isLogged(true));
-
         } else {
+            const errorMessage = responseData.error?.data && extractErrorMessage(responseData.error.data);
             thunkApi.dispatch(authActions.message('Login failed: ' + errorMessage));
             thunkApi.dispatch(authActions.errorSnackbar(true));
             thunkApi.dispatch(authActions.typeAlert("error"));
@@ -71,7 +68,7 @@ const authSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(postLogin.fulfilled, (state, action) => {
+        builder.addCase(login.fulfilled, (state, action) => {
             state.logging = false;
         });
     }
