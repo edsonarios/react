@@ -8,7 +8,7 @@ type Props = {
 }
 
 const TodoItem = ({ item }: Props) => {
-  const { selectionItem, removeTodo } = actionsTodo()
+  const { onOffItem, removeTodo } = actionsTodo()
 
   const { id, description, status } = item;
 
@@ -17,7 +17,7 @@ const TodoItem = ({ item }: Props) => {
       <TodoItemStatus item={item} />
       <TodoDescription
         style={{ textDecoration: status === ItemStatus.DONE ? 'line-through' : '' }}
-        onClick={() => selectionItem(item)}
+        onClick={() => onOffItem(item)}
       >
         {description}
       </TodoDescription>
@@ -29,4 +29,3 @@ const TodoItem = ({ item }: Props) => {
 }
 
 export default TodoItem;
-

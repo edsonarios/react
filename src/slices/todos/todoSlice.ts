@@ -91,6 +91,9 @@ const todoSlice = createSlice({
         state.data.push(action.payload)
       }
     },
+    onOffItem: (state, action: PayloadAction<ItemProps | null>) => {
+      state.activeItem = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTodos.pending, (state, action) => {

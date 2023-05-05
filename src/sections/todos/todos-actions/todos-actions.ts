@@ -1,17 +1,28 @@
 import { deleteTodo, fetchTodos, editTodo } from "@/slices/todos/todoSlice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { ItemProps, ItemStatus } from "@/types/todo-item";
-import { Types } from "@/reducer/actions";
 import { useEffect, useMemo } from "react";
-
+import { todoActions } from "@/slices/todos/todoSlice";
 
 export const actionsTodo = () => {
     const dispatch = useAppDispatch();
     const { token } = useAppSelector(state => state.auth);
 
-    const selectionItem = (item: ItemProps) => {
-        console.log(item)
-        dispatch({ type: Types.Select, payload: item.id });
+    const onOffItem = (item: ItemProps | null) => {
+        dispatch(todoActions.onOffItem(item));
+    }
+
+    const editDescriptionTodo = (item: ItemProps, description: string) => {
+        onOffItem(null)
+        dispatch(editTodo(
+            {
+                id: item.id,
+                body: {
+                    id: item.id,
+                    description: description,
+                    status: item.status
+                },
+            }));
     }
 
     const removeTodo = (item: ItemProps) => {
@@ -45,5 +56,5 @@ export const actionsTodo = () => {
         return noDoneTodo.concat(doneTodo);
     }, [data]);
 
-    return { removeTodo, selectionItem, listTodos, editStatusTodo, sortedData }
+    return { onOffItem, editDescriptionTodo, removeTodo, listTodos, editStatusTodo, sortedData }
 }

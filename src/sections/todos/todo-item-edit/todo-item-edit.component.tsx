@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import TodoItemStatus from "../todo-item-status/todo-item-status.component";
 import { CustomTextField, Wrapper } from "./todo-item-edit.styles";
-import { useDispatch } from 'react-redux';
 import { ItemProps } from "@/types/todo-item";
-import { Types } from "@/reducer/actions";
+import { actionsTodo } from "../todos-actions/todos-actions";
 
 type Props = {
   item: ItemProps;
@@ -11,17 +10,7 @@ type Props = {
 
 const TodoItemEdit = ({ item }: Props) => {
   const [value, setValue] = useState(item.description);
-  const dispatch = useDispatch();
-
-  const handleUpdateItem = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    dispatch({
-      type: Types.Update,
-      payload: {
-        id: item.id, dataUpdated: { description: value }
-      }
-    });
-  }
+  const { onOffItem, editDescriptionTodo } = actionsTodo()
 
   const handleChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -30,7 +19,7 @@ const TodoItemEdit = ({ item }: Props) => {
   return (
     <Wrapper>
       <TodoItemStatus item={item} />
-      <form style={{ display: 'inline' }} onSubmit={handleUpdateItem}>
+      <form style={{ display: 'inline' }} onSubmit={() => editDescriptionTodo(item, value)}>
         <CustomTextField
           id={`todo-item-${item.id}`}
           variant="outlined"
@@ -38,6 +27,7 @@ const TodoItemEdit = ({ item }: Props) => {
           autoFocus
           value={value}
           onChange={handleChangeDescription}
+          onBlur={() => onOffItem(null)}
         />
       </form>
     </Wrapper>
@@ -45,4 +35,3 @@ const TodoItemEdit = ({ item }: Props) => {
 }
 
 export default TodoItemEdit;
-
