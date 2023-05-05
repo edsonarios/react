@@ -17,7 +17,11 @@ export const postTodo = createAsyncThunk(
     thunkApi.dispatch(todoActions.addingItem(true));
     const response = await thunkApi.dispatch(todosApi.endpoints.addTodo.initiate(params));
     const responseData = response as { data: ItemPropsMongo };
-    thunkApi.dispatch(todoActions.add(normalizeTodoData([responseData.data])[0]));
+    console.log(responseData)
+    const item = normalizeTodoData([responseData.data])[0]
+    thunkApi.dispatch(todoActions.add(item));
+    thunkApi.dispatch(todoActions.onOffItem(item));
+    thunkApi.dispatch(todoActions.onOffFocusItem(true));
     return responseData;
   });
 
@@ -61,7 +65,9 @@ export const editTodo = createAsyncThunk(
     console.log(response)
     const responseData = response as Partial<responseProps>;
 
-    thunkApi.dispatch(todoActions.add(normalizeData(responseData.data)));
+    if (responseData.data) {
+      thunkApi.dispatch(todoActions.add(normalizeData(responseData.data)));
+    }
     return responseData;
   });
 
@@ -94,6 +100,9 @@ const todoSlice = createSlice({
     onOffItem: (state, action: PayloadAction<ItemProps | null>) => {
       state.activeItem = action.payload
     },
+    onOffFocusItem: (state, action: PayloadAction<boolean | undefined>) => {
+      state.selectOnFocus = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTodos.pending, (state, action) => {
@@ -107,6 +116,7 @@ const todoSlice = createSlice({
     });
     builder.addCase(postTodo.fulfilled, (state, action) => {
       state.addingItem = false;
+      state.selectOnFocus = false;
     });
     builder.addCase(deleteTodo.fulfilled, (state, action) => {
       console.log(state, action)
