@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authApi } from "@/api/auth-api";
-import { RegisterProps, LoginProps, loginResponseProps } from "@/types/auth";
+import { RegisterProps, LoginProps, loginResponseProps, registerResponseProps } from "@/types/auth";
 import { initialState } from "./auth-state";
 import { AlertColor } from '@mui/material';
 import { extractErrorMessage, extractToken } from "@/utils/utils";
@@ -32,6 +32,28 @@ export const login = createAsyncThunk(
             thunkApi.dispatch(authActions.typeAlert("error"));
         }
         return responseData;
+    });
+
+export const register = createAsyncThunk(
+    'auth/registerProcess',
+    async (params: LoginProps, thunkApi) => {
+        thunkApi.dispatch(authActions.logging(true));
+        const response = await thunkApi.dispatch(authApi.endpoints.register.initiate(params));
+
+        const responseData = response as registerResponseProps;
+
+        if (responseData.data) {
+            thunkApi.dispatch(authActions.message('Register successfull: ' + responseData.data.email));
+            thunkApi.dispatch(authActions.errorSnackbar(true));
+            thunkApi.dispatch(authActions.typeAlert("success"));
+        } else {
+            if (responseData.error) {
+                thunkApi.dispatch(authActions.message('Register failed: ' + responseData.error.data.message));
+                thunkApi.dispatch(authActions.errorSnackbar(true));
+                thunkApi.dispatch(authActions.typeAlert("error"));
+            }
+        }
+        return responseData
     });
 
 export const errorAlert = createAsyncThunk(
@@ -69,6 +91,9 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(login.fulfilled, (state, action) => {
+            state.logging = false;
+        });
+        builder.addCase(register.fulfilled, (state, action) => {
             state.logging = false;
         });
     }

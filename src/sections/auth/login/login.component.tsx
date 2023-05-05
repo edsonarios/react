@@ -18,41 +18,16 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 const theme = createTheme();
-import { errorAlert, login } from '@/slices/auth/authSlice';
+import { errorAlert } from '@/slices/auth/authSlice';
 import ErrorSnackbar from '@/components/alert/error-snackbar';
-import { loginResponseProps } from '@/types/auth';
-import { unwrapResult } from '@reduxjs/toolkit';
+import { actionsAuth } from '../auth-actions';
 
 const AuthLoginPage = () => {
     const dispatch = useAppDispatch();
     const { logging, errorSnackbar, message, typeAlert } = useAppSelector(state => state.auth);
+    const { loginSubmit } = actionsAuth()
 
     const navigate = useNavigate();
-
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-
-        try {
-            const responseLogin: loginResponseProps = unwrapResult(await dispatch(login(
-                // {
-                //     email: 'edson@mail',
-                //     password: '12345',
-                // }
-                {
-                    email: data.get('email') as string,
-                    password: data.get('password') as string,
-                }
-            )));
-            if (responseLogin.error.originalStatus === 201) {
-                navigate('/todos');
-            }
-        } catch (error: any) {
-            if (error instanceof Error) {
-                console.log(error.message);
-            }
-        }
-    };
 
     const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
         dispatch(errorAlert(false));
@@ -76,7 +51,9 @@ const AuthLoginPage = () => {
                     <Typography component="h1" variant="h5">
                         Login
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component="form"
+                        onSubmit={(event) => loginSubmit(event as React.FormEvent<HTMLFormElement>, navigate)}
+                        sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
