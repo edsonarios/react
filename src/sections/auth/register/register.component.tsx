@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import {
     TextField,
     Button,
@@ -25,9 +25,39 @@ const AuthRegisterPage = () => {
     const { logging, errorSnackbar, message, typeAlert } = useAppSelector(state => state.auth);
     const { registerSubmit } = actionsAuth()
 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordError, setPasswordError] = useState(false);
+
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
+        checkPasswordsMatch(event.target.value, confirmPassword);
+    };
+
+    const handleConfirmPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setConfirmPassword(event.target.value);
+        checkPasswordsMatch(password, event.target.value);
+    };
+
+    const checkPasswordsMatch = (password: string, confirmPassword: string) => {
+        if (confirmPassword != '' && password !== confirmPassword) {
+            setPasswordError(true);
+        } else {
+            setPasswordError(false);
+        }
+    };
+
+    const resetFields = () => {
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+    };
+
     const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
         dispatch(errorAlert(false));
     };
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -47,7 +77,14 @@ const AuthRegisterPage = () => {
                     <Typography component="h1" variant="h5">
                         Register
                     </Typography>
-                    <Box component="form" onSubmit={(event) => registerSubmit(event as React.FormEvent<HTMLFormElement>)} noValidate sx={{ mt: 1 }}>
+                    <Box component="form"
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            if (!passwordError) {
+                                registerSubmit(event as React.FormEvent<HTMLFormElement>, resetFields);
+                            }
+                        }}
+                        noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
@@ -57,6 +94,8 @@ const AuthRegisterPage = () => {
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
                         />
                         <TextField
                             margin="normal"
@@ -67,14 +106,29 @@ const AuthRegisterPage = () => {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            value={password}
+                            onChange={handlePasswordChange}
                         />
-
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="repitPassword"
+                            label="Repit Password"
+                            type="password"
+                            id="repitPassword"
+                            autoComplete="current-password"
+                            value={confirmPassword}
+                            onChange={handleConfirmPasswordChange}
+                            error={passwordError}
+                            helperText={passwordError ? "Passwords do not match." : ""}
+                        />
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
-                            disabled={logging}
+                            disabled={passwordError || logging}
                         >
                             {logging ? <CircularProgress size={24} /> : 'Register'}
                         </Button>

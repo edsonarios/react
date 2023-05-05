@@ -1,9 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { ItemProps } from "@/types/todo-item";
-import { todoActions } from "@/slices/todos/todoSlice";
 import { login, register } from "@/slices/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-import { loginResponseProps } from "@/types/auth";
+import { loginResponseProps, registerResponseProps } from "@/types/auth";
 import { unwrapResult } from "@reduxjs/toolkit";
 
 export const actionsAuth = () => {
@@ -30,17 +28,20 @@ export const actionsAuth = () => {
         }
     };
 
-    const registerSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const registerSubmit = async (event: React.FormEvent<HTMLFormElement>, onSuccess: () => void,) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
         try {
-            await dispatch(register(
+            const registerResponse: registerResponseProps = unwrapResult(await dispatch(register(
                 {
                     email: data.get('email') as string,
                     password: data.get('password') as string,
                 }
-            ));
+            )));
+            if (registerResponse.data) {
+                onSuccess()
+            }
         } catch (error: any) {
             if (error instanceof Error) {
                 console.log(error.message);
