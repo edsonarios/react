@@ -24,6 +24,13 @@ const TodoList = ({ }: Props) => {
     dispatch(errorAlert(false));
   };
 
+  const renderNoDataMessage = () => {
+    if (!loading && data.length === 0) {
+      return <p>Error: No items</p>;
+    }
+    return null;
+  }
+
   return (
     <React.Fragment>
       {loading &&
@@ -39,6 +46,7 @@ const TodoList = ({ }: Props) => {
           }
         </React.Fragment>
       ))}
+      {renderNoDataMessage()}
       <ErrorSnackbar
         open={errorSnackbar}
         message={message}
