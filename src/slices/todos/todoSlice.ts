@@ -17,7 +17,6 @@ export const postTodo = createAsyncThunk(
     thunkApi.dispatch(todoActions.addingItem(true));
     const response = await thunkApi.dispatch(todosApi.endpoints.addTodo.initiate(params));
     const responseData = response as { data: ItemPropsMongo };
-    console.log(responseData)
     const item = normalizeTodoData([responseData.data])[0]
     thunkApi.dispatch(todoActions.add(item));
     thunkApi.dispatch(todoActions.onOffItem(item));
@@ -46,7 +45,6 @@ export const deleteTodo = createAsyncThunk(
   async (item: ItemProps, thunkApi) => {
     thunkApi.dispatch(todoActions.remove(item.id));
     const response = await thunkApi.dispatch(todosApi.endpoints.deleteTodo.initiate(item.id));
-    console.log(response)
     const responseData = response as Partial<responseProps>;
     if (!responseData.isSuccess) {
       thunkApi.dispatch(todoActions.rollbackTodo(item));
@@ -62,7 +60,6 @@ export const editTodo = createAsyncThunk(
   async (item: ItemEditProps, thunkApi) => {
     thunkApi.dispatch(todoActions.remove(item.id));
     const response = await thunkApi.dispatch(todosApi.endpoints.editTodo.initiate(item));
-    console.log(response)
     const responseData = response as Partial<responseProps>;
 
     if (responseData.data) {
@@ -117,9 +114,6 @@ const todoSlice = createSlice({
     builder.addCase(postTodo.fulfilled, (state, action) => {
       state.addingItem = false;
       state.selectOnFocus = false;
-    });
-    builder.addCase(deleteTodo.fulfilled, (state, action) => {
-      console.log(state, action)
     });
   }
 });

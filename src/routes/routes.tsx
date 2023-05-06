@@ -8,23 +8,26 @@ import AuthLoginPage from "@/pages/auth/login-page";
 import AuthRegisterPage from "@/pages/auth/register-page";
 import AuthResetPasswordPage from "@/pages/auth/reset-password-page";
 import AuthRoutes from "./auth";
+import { PrivateRoute } from './private-route';
 
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
 
 const AppRoutes = () => {
+  const ProtectedTodosPage = PrivateRoute(TodosPage, '/');
+
   return (
     <Provider store={store}>
       <Routes>
         <Route path="/" element={
           <Suspense fallback={<LoadingPageIndicator />}>
             <AuthLoginPage />
-            {/* <TodosPage /> */}
           </Suspense>} />
-        <Route path="/todos" element={
+        <Route path="/todos" element={<ProtectedTodosPage />} />
+        {/* <Route path="/todos" element={
           <Suspense fallback={<LoadingPageIndicator />}>
             <TodosPage />
-          </Suspense>} />
+          </Suspense>} /> */}
         {/* <AuthRoutes /> */}
         {/* <Route path="auth" element={<AuthRoutes />} />  */}
         <Route path="auth" element={<Outlet />}>

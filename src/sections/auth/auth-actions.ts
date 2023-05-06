@@ -3,6 +3,7 @@ import { authActions, login, register } from "@/slices/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { loginResponseProps, registerResponseProps } from "@/types/auth";
 import { unwrapResult } from "@reduxjs/toolkit";
+import Cookies from 'js-cookie';
 
 export const actionsAuth = () => {
     const dispatch = useAppDispatch();
@@ -19,6 +20,8 @@ export const actionsAuth = () => {
                 }
             )));
             if (responseLogin.error.originalStatus === 201) {
+                const token = responseLogin.error.data as string
+                Cookies.set('token', token);
                 navigate('/todos');
             }
         } catch (error: any) {
@@ -50,9 +53,14 @@ export const actionsAuth = () => {
     };
 
     const logoutSubmit = (navigate: ReturnType<typeof useNavigate>) => {
-        dispatch(authActions.setToken(''));
+        Cookies.set('token', '');
         navigate('/');
     };
 
-    return { loginSubmit, registerSubmit, logoutSubmit }
+    const isAuthenticated = () => {
+        const token = Cookies.get('token');
+        return !!token;
+    };
+
+    return { loginSubmit, registerSubmit, logoutSubmit, isAuthenticated }
 }
