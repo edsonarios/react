@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { login, register } from "@/slices/auth/authSlice";
+import { authActions, login, register } from "@/slices/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { loginResponseProps, registerResponseProps } from "@/types/auth";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -49,5 +49,10 @@ export const actionsAuth = () => {
         }
     };
 
-    return { loginSubmit, registerSubmit }
+    const logoutSubmit = (navigate: ReturnType<typeof useNavigate>) => {
+        dispatch(authActions.setToken(''));
+        navigate('/');
+    };
+
+    return { loginSubmit, registerSubmit, logoutSubmit }
 }
