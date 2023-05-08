@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { authActions, login, register } from "@/slices/auth/authSlice";
+import { login, register } from "@/slices/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { loginResponseProps, registerResponseProps } from "@/types/auth";
 import { unwrapResult } from "@reduxjs/toolkit";

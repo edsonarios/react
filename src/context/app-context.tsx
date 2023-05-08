@@ -21,4 +21,3 @@ const AppContextProvider = ({ children }: Props) => {
 }
 
 export default AppContextProvider;
-

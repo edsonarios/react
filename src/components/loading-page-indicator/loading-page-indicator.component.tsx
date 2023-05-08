@@ -1,4 +1,4 @@
 
 const LoadingPageIndicator = () => <div>Loading...</div>;
 
-export  default LoadingPageIndicator;
+export default LoadingPageIndicator;

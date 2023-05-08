@@ -5,12 +5,6 @@ import { normalizeData, normalizeTodoData } from "@/utils/normailize-todo";
 import { initialState } from "./initial-state";
 import { authActions } from "../auth/authSlice";
 
-// action types
-// Document actions => procesada en los reducers, ejecutadas desde cualquier parte de la aplicacion
-// Initial actions => iniciar un flujo de acciones, se lanzan desde los componentes, nunca son procesados en los reducers, debe iniciar otras acciones
-// Event actions => son ejecutadas por otras acciones y se encargan de ejecutar otras funcione(s).
-
-
 export const postTodo = createAsyncThunk(
   'todos/postTodoProcess',
   async (params: Partial<ItemProps>, thunkApi) => {

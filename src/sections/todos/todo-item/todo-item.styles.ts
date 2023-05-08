@@ -31,4 +31,3 @@ export const IconRemove = styled(MuiIconRemove)`
   width: 10px;
   height: 10px;
 `;
-

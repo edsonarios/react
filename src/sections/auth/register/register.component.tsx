@@ -84,7 +84,7 @@ const AuthRegisterPage = () => {
                                 registerSubmit(event as React.FormEvent<HTMLFormElement>, resetFields);
                             }
                         }}
-                        noValidate sx={{ mt: 1 }}>
+                        sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
