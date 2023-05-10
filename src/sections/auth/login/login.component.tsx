@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import {
     TextField,
     FormControlLabel,
@@ -12,6 +12,8 @@ import {
     Typography,
     CircularProgress,
     SnackbarCloseReason,
+    InputAdornment,
+    IconButton,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -21,6 +23,7 @@ const theme = createTheme();
 import { errorAlert } from '@/slices/auth/authSlice';
 import ErrorSnackbar from '@/components/alert/error-snackbar';
 import { actionsAuth } from '../auth-actions';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const AuthLoginPage = () => {
     const dispatch = useAppDispatch();
@@ -28,6 +31,8 @@ const AuthLoginPage = () => {
     const { loginSubmit } = actionsAuth()
 
     const navigate = useNavigate();
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
         dispatch(errorAlert(false));
@@ -70,9 +75,21 @@ const AuthLoginPage = () => {
                             fullWidth
                             name="password"
                             label="Password"
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             id="password"
                             autoComplete="current-password"
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            onMouseDown={(event) => event.preventDefault()}
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}

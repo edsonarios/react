@@ -156,3 +156,9 @@ body {
     align-items: center;
     color: #3d82eb
 }
+
+.help-text-password {
+    font-size: 12px;
+    width: 400px;
+    color: #aaa8a8;
+}
