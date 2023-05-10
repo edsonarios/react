@@ -26,7 +26,7 @@ const TodoList = ({ }: Props) => {
 
   const renderNoDataMessage = () => {
     if (!loading && data.length === 0) {
-      return <p>Error: No items</p>;
+      return <div className="noItem">Error: No items</div>;
     }
     return null;
   }
@@ -39,12 +39,13 @@ const TodoList = ({ }: Props) => {
         </Box>
       }
       {sortedData(data).map((item: ItemProps) => (
-        <React.Fragment key={item.id}>
+        <div key={item.id}
+        className="item">
           {activeItem?.id === item.id ?
             <TodoItemEdit item={item} /> :
             <TodoItem item={item} />
           }
-        </React.Fragment>
+        </div>
       ))}
       {renderNoDataMessage()}
       <ErrorSnackbar

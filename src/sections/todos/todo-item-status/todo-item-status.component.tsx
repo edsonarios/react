@@ -11,9 +11,10 @@ const TodoItemStatus = ({ item }: Props) => {
   const { editStatusTodo } = actionsTodo()
 
   return (
-    <StatusContainer onClick={() => editStatusTodo(item)} title="Update Status">
-      {item.status === ItemStatus.IN_PROGRESS ? <InProgressStatus /> : <DoneStatus />}
-    </StatusContainer>
+    <div onClick={() => editStatusTodo(item)} title="Update Status"
+    className={`${item.status === ItemStatus.IN_PROGRESS ? 'inProgress':'done'}`}>
+      {/* {item.status === ItemStatus.IN_PROGRESS ? <InProgressStatus /> : <DoneStatus />} */}
+    </div>
   );
 }
 

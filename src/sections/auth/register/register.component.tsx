@@ -74,7 +74,7 @@ const AuthRegisterPage = () => {
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <AccessibilityNewOutlined />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h2" variant="h5">
                         Register
                     </Typography>
                     <Box component="form"

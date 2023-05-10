@@ -38,7 +38,7 @@ const AuthResetPasswordPage = () => {
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <CachedOutlinedIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h2" variant="h5">
                         Reset Password
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
