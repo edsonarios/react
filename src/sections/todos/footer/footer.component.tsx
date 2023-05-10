@@ -38,7 +38,7 @@ const Footer = () => {
       )}
       <Wrapper onClick={handleClick} disabled={addingItem}>
         <AddIcon />
-        <AddText>Add new Item</AddText>
+        <AddText>Create New Item</AddText>
       </Wrapper>
     </>
   )
