@@ -29,7 +29,7 @@ const AuthResetPasswordPage = () => {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main', background: '#1976d2' }}>
                         <CachedOutlinedIcon />
                     </Avatar>
                     <Typography component="h2" variant="h5">

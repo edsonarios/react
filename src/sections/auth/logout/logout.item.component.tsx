@@ -18,6 +18,8 @@ const LogoutButton: React.FC = () => {
                 position: 'fixed',
                 right: '16px',
                 bottom: '16px',
+                background: '#3d82eb',
+                "&": 'hover{background:#0e4ca8}',
             }}
         >
             Logout

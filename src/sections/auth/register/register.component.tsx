@@ -106,7 +106,7 @@ const AuthRegisterPage = () => {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main', background: '#1976d2' }}>
                         <AccessibilityNewOutlined />
                     </Avatar>
                     <Typography component="h2" variant="h5">
