@@ -4,6 +4,8 @@ import { RegisterProps, LoginProps, loginResponseProps, registerResponseProps } 
 import { initialState } from "./auth-state";
 import { AlertColor } from '@mui/material';
 import { extractErrorMessage, extractToken } from "@/utils/utils";
+
+
 export const postRegister = createAsyncThunk(
     'auth/registerProcess',
     async (params: RegisterProps, thunkApi) => {
@@ -54,6 +56,13 @@ export const register = createAsyncThunk(
             }
         }
         return responseData
+    });
+
+export const me = createAsyncThunk(
+    'auth/meProcess',
+    async (params: any, thunkApi) => {
+        const response = await thunkApi.dispatch(authApi.endpoints.me.initiate(params));
+        return response
     });
 
 export const errorAlert = createAsyncThunk(

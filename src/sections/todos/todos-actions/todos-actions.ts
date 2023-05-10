@@ -1,12 +1,12 @@
 import { deleteTodo, fetchTodos, editTodo } from "@/slices/todos/todoSlice";
-import { useAppDispatch, useAppSelector } from "@/store/store";
+import { useAppDispatch } from "@/store/store";
 import { ItemProps, ItemStatus } from "@/types/todo-item";
 import { useEffect, useMemo } from "react";
 import { todoActions } from "@/slices/todos/todoSlice";
+import Cookies from "js-cookie";
 
 export const actionsTodo = () => {
     const dispatch = useAppDispatch();
-    const { token } = useAppSelector(state => state.auth);
 
     const onOffItem = (item: ItemProps | null) => {
         dispatch(todoActions.onOffItem(item));
@@ -31,7 +31,7 @@ export const actionsTodo = () => {
 
     const listTodos = () => {
         useEffect(() => {
-            dispatch(fetchTodos({ searchParam: '', token }));
+            dispatch(fetchTodos({ searchParam: '', token: Cookies.get('token') as string}));
         }, []);
     }
 

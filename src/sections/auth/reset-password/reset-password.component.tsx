@@ -11,16 +11,11 @@ import {
 import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from "react-router-dom";
+import { actionsAuth } from '../auth-actions';
 const theme = createTheme();
 
 const AuthResetPasswordPage = () => {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-        });
-    };
+    const { resetPasswordSubmit } = actionsAuth()
 
     return (
         <ThemeProvider theme={theme}>
@@ -40,7 +35,7 @@ const AuthResetPasswordPage = () => {
                     <Typography component="h2" variant="h5">
                         Reset Password
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={(event) => resetPasswordSubmit(event as React.FormEvent<HTMLFormElement>)} sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required

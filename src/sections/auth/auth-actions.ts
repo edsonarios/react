@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { login, register } from "@/slices/auth/authSlice";
+import { login, me, register } from "@/slices/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { loginResponseProps, registerResponseProps } from "@/types/auth";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -31,7 +31,7 @@ export const actionsAuth = () => {
         }
     };
 
-    const registerSubmit = async (event: React.FormEvent<HTMLFormElement>, onSuccess: () => void,) => {
+    const registerSubmit = async (event: React.FormEvent<HTMLFormElement>, onSuccess: () => void) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
@@ -52,6 +52,14 @@ export const actionsAuth = () => {
         }
     };
 
+    const resetPasswordSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+
+        console.log(data.get('email'))
+        console.log("Reset password, comming soon...!!!")
+    };
+
     const logoutSubmit = (navigate: ReturnType<typeof useNavigate>) => {
         Cookies.set('token', '');
         navigate('/');
@@ -62,5 +70,5 @@ export const actionsAuth = () => {
         return !!token;
     };
 
-    return { loginSubmit, registerSubmit, logoutSubmit, isAuthenticated }
+    return { loginSubmit, registerSubmit, logoutSubmit, isAuthenticated, resetPasswordSubmit }
 }

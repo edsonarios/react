@@ -4,6 +4,7 @@ import { authApi as Api } from './api';
 
 export const REGISTER = 'register';
 export const LOGIN = 'login';
+export const ME = 'me';
 
 export const authApi = Api.injectEndpoints({
     endpoints: (builder) => ({
@@ -21,8 +22,17 @@ export const authApi = Api.injectEndpoints({
                 body: body
             }),
         }),
+        me: builder.query<any, any>({
+            query: (token) => ({
+                url: ME,
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            }),
+        }),
     }),
     overrideExisting: true
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useMeQuery } = authApi;
