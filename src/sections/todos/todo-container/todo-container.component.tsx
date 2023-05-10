@@ -5,6 +5,7 @@ import Footer from "../footer/footer.component";
 import TodoList from "../todo-list/todo-list.component";
 import Header from "@/components/header/header.component";
 import LogoutButton from "../../auth/logout/logout.item.component";
+import Calendar from "@/components/calendar/calendar";
 
 type StateProps = {
   data: Array<ItemProps>;
@@ -16,6 +17,7 @@ class TodoContainer extends React.Component<{}, StateProps> {
   render() {
     return (
       <Container maxWidth="xs">
+        <Calendar />
         <Header title="Todos" />
         <TodoList />
         <Footer />
