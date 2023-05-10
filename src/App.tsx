@@ -1,7 +1,7 @@
 import AppRoutes from './routes/routes';
 
 const App = () => (
-  <div className='todoapp'>
+  <div className=''>
     <AppRoutes />
   </div>
 );

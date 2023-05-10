@@ -1,8 +1,16 @@
+import Header from '@/components/header/header.component';
 import AuthRegisterPage from '@/sections/auth/register/register.component';
 
 const AuthPage = () => {
     return (
-        <AuthRegisterPage />
+        <div>
+            <div className="auth-header">
+                <Header title="TodosApp" />
+            </div>
+            <div className="auth">
+                <AuthRegisterPage />
+            </div>
+        </div>
     )
 };
 
