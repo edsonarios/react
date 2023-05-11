@@ -35,7 +35,7 @@ const TodoList = ({ }: Props) => {
     <React.Fragment>
       {loading &&
         <Box textAlign="center">
-          <CircularProgress size={10} />
+          <CircularProgress size={40} />
         </Box>
       }
       {sortedData(data).map((item: ItemProps) => (

@@ -23,3 +23,16 @@ export const AddText = styled.span`
   padding: 0 12px;
   margin-left:10px;
 `
+
+export const AddIconDisable = styled(AddCircleOutlineIcon)`
+  color: #9b9b9b;
+  widht: 24px;
+  height: 24px;
+`
+
+export const AddTextDisable = styled.span`
+  color: #9b9b9b;
+  font-size: 24px;
+  padding: 0 12px;
+  margin-left:10px;
+`

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { postTodo } from "@/slices/todos/todoSlice";
 import { AppDispatch, RootState } from "@/store/store";
 import { ItemStatus } from "@/types/todo-item";
-import { AddIcon, AddText, Wrapper } from "./footer.styles";
+import { AddIcon, AddIconDisable, AddText, AddTextDisable, Wrapper } from "./footer.styles";
 
 const Footer = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,8 +37,8 @@ const Footer = () => {
         </Box>
       )}
       <Wrapper onClick={handleClick} disabled={addingItem}>
-        <AddIcon />
-        <AddText>Create New Item</AddText>
+        {addingItem ? <AddIconDisable /> : <AddIcon />}
+        {addingItem ? <AddTextDisable>Create New Item</AddTextDisable> : <AddText>Create New Item</AddText>}
       </Wrapper>
     </>
   )
