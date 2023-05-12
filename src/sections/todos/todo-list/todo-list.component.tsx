@@ -9,6 +9,7 @@ import { actionsTodo } from "../todos-actions/todos-actions";
 import { errorAlert } from "@/slices/auth/authSlice";
 import ErrorSnackbar from "@/components/alert/error-snackbar";
 import { SnackbarCloseReason } from "@mui/material";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 type Props = {}
 
@@ -38,15 +39,19 @@ const TodoList = ({ }: Props) => {
           <CircularProgress size={40} />
         </Box>
       }
-      {sortedData(data).map((item: ItemProps) => (
-        <div key={item.id}
-        className="item">
-          {activeItem?.id === item.id ?
-            <TodoItemEdit item={item} /> :
-            <TodoItem item={item} />
-          }
-        </div>
-      ))}
+      <TransitionGroup component={null}>
+        {sortedData(data).map((item: ItemProps) => (
+          <CSSTransition key={item.id} classNames="item" timeout={300}>
+            <div className="item">
+              {activeItem?.id === item.id ? (
+                <TodoItemEdit item={item} />
+              ) : (
+                <TodoItem item={item} />
+              )}
+            </div>
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
       {renderNoDataMessage()}
       <ErrorSnackbar
         open={errorSnackbar}

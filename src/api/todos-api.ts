@@ -31,9 +31,9 @@ export const todosApi = Api.injectEndpoints({
       }),
       providesTags: [{ type: 'Todos', id: 'DELETE' }]
     }),
-    editTodo: builder.query<string, ItemEditProps>({
-      query: ({ id, body }) => ({
-        url: TODO_PREFIX + "/" + id,
+    editTodo: builder.query<string, ItemProps>({
+      query: (body) => ({
+        url: TODO_PREFIX + "/" + body.id,
         method: 'PUT',
         body: body,
       }),

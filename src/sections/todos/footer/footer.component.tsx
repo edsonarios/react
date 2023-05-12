@@ -1,5 +1,5 @@
 import { Box } from "@mui/system";
-import { Skeleton, Typography } from "@mui/material";
+import { CircularProgress, Skeleton, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { postTodo } from "@/slices/todos/todoSlice";
 import { AppDispatch, RootState } from "@/store/store";
@@ -22,23 +22,10 @@ const Footer = () => {
 
   return (
     <>
-      {addingItem && (
-        <Box display="flex" alignItems="center" paddingX={1}>
-          <Box width={16}>
-            <Typography variant="overline">
-              <Skeleton variant="circular" />
-            </Typography>
-          </Box>
-          <Box width="100%" paddingX={2.5}>
-            <Typography variant="caption">
-              <Skeleton />
-            </Typography>
-          </Box>
-        </Box>
-      )}
       <Wrapper onClick={handleClick} disabled={addingItem}>
         {addingItem ? <AddIconDisable /> : <AddIcon />}
         {addingItem ? <AddTextDisable>Create New Item</AddTextDisable> : <AddText>Create New Item</AddText>}
+        {addingItem ? <CircularProgress size={25} /> : null}
       </Wrapper>
     </>
   )

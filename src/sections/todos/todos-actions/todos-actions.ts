@@ -13,17 +13,14 @@ export const actionsTodo = () => {
     }
 
     const editDescriptionTodo = (item: ItemProps, description: string) => {
-        onOffItem(null)
-        dispatch(editTodo(
-            {
-                id: item.id,
-                body: {
-                    id: item.id,
-                    description: description,
-                    status: item.status
-                },
-            }));
-    }
+        onOffItem(null);
+        const itemtoEdit: ItemProps = {
+            id: item.id,
+            description: description,
+            status: item.status,
+        };
+        dispatch(editTodo({ itemtoEdit, item }));
+    };
 
     const removeTodo = (item: ItemProps) => {
         dispatch(deleteTodo(item));
@@ -31,20 +28,17 @@ export const actionsTodo = () => {
 
     const listTodos = () => {
         useEffect(() => {
-            dispatch(fetchTodos({ searchParam: '', token: Cookies.get('token') as string}));
+            dispatch(fetchTodos({ searchParam: '', token: Cookies.get('token') as string }));
         }, []);
     }
 
     const editStatusTodo = (item: ItemProps) => {
-        dispatch(editTodo(
-            {
-                id: item.id,
-                body: {
-                    id: item.id,
-                    description: item.description,
-                    status: item.status === ItemStatus.IN_PROGRESS ? ItemStatus.DONE : ItemStatus.IN_PROGRESS
-                },
-            }));
+        const itemtoEdit: ItemProps = {
+            id: item.id,
+            description: item.description,
+            status: item.status === ItemStatus.IN_PROGRESS ? ItemStatus.DONE : ItemStatus.IN_PROGRESS
+        };
+        dispatch(editTodo({ itemtoEdit, item }));
     }
 
     const sortedData = (data: ItemProps[]) => useMemo(() => {
