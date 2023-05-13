@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authApi } from "@/api/auth-api";
 import { RegisterProps, LoginProps, loginResponseProps, registerResponseProps } from "@/types/auth";
 import { AlertProps, initialState } from "./auth-state";
-import { extractErrorMessage, extractToken } from "@/utils/utils";
+import { extractErrorMessage } from "@/utils/utils";
 
 
 export const postRegister = createAsyncThunk(
@@ -20,13 +20,7 @@ export const login = createAsyncThunk(
         const response = await thunkApi.dispatch(authApi.endpoints.login.initiate(params));
         const responseData = response as loginResponseProps;
 
-        const token = responseData.error?.data && extractToken(responseData.error.data)
-        const statusCode = responseData.error?.originalStatus
-
-        if (statusCode === 201 && token) {
-            thunkApi.dispatch(authActions.setToken(token));
-            thunkApi.dispatch(authActions.isLogged(true));
-        } else {
+        if (responseData.error?.status === 400) {
             const errorMessage = responseData.error?.data && extractErrorMessage(responseData.error.data);
             thunkApi.dispatch(authActions.alert({
                 errorSnackbar: true,
@@ -84,14 +78,8 @@ const authSlice = createSlice({
         logging: (state, action: PayloadAction<boolean>) => {
             state.logging = action.payload
         },
-        setToken: (state, action: PayloadAction<string>) => {
-            state.token = action.payload
-        },
         setUser: (state, action: PayloadAction<string>) => {
             state.user = action.payload
-        },
-        isLogged: (state, action: PayloadAction<boolean>) => {
-            state.isLoggedIn = action.payload
         },
         alert: (state, action: PayloadAction<AlertProps>) => {
             state.alert = action.payload
