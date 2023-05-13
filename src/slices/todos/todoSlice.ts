@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { todosApi } from "@/api/todos-api";
-import { fechTodosProps, ItemEditProps, ItemProps, ItemPropsMongo, responseProps } from "@/types/todo-item";
+import { ItemProps, ItemPropsMongo, responseProps } from "@/types/todo-item";
 import { normalizeData, normalizeTodoData } from "@/utils/normailize-todo";
 import { initialState } from "./initial-state";
 import { authActions } from "../auth/authSlice";
@@ -26,7 +26,7 @@ export const postTodo = createAsyncThunk(
 
 export const fetchTodos = createAsyncThunk(
   'todos/fetchTodosProcess',
-  async (params: fechTodosProps, thunkApi) => {
+  async (params: string, thunkApi) => {
     const response = await thunkApi.dispatch(todosApi.endpoints.getAllTodos.initiate(params));
     thunkApi.dispatch(normalizeTodos(response.data as ItemPropsMongo[]));
     return response;
@@ -57,14 +57,14 @@ export const deleteTodo = createAsyncThunk(
 
 export const editTodo = createAsyncThunk(
   'todos/editTodoProcess',
-  async ({ itemtoEdit, item }: { itemtoEdit: ItemProps, item: ItemProps }, thunkApi) => {
-    thunkApi.dispatch(todoActions.remove(item.id));
-    const response = await thunkApi.dispatch(todosApi.endpoints.editTodo.initiate(itemtoEdit));
-    thunkApi.dispatch(todoActions.add(itemtoEdit));
+  async ({ itemtoEdited, item }: { itemtoEdited: ItemProps, item: ItemProps }, thunkApi) => {
+    thunkApi.dispatch(todoActions.update(itemtoEdited));
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    const response = await thunkApi.dispatch(todosApi.endpoints.editTodo.initiate(itemtoEdited));
     const responseData = response as Partial<responseProps>;
 
     if (!responseData.data) {
-      thunkApi.dispatch(todoActions.replace(item));
+      thunkApi.dispatch(todoActions.update(item));
       thunkApi.dispatch(authActions.message(`Error: Fails updating item "${item.description}"`));
       thunkApi.dispatch(authActions.errorSnackbar(true));
       thunkApi.dispatch(authActions.typeAlert("error"));
@@ -92,9 +92,13 @@ const todoSlice = createSlice({
       const selectItemIndex = state.data.findIndex(item => item.id === action.payload);
       state.data.splice(selectItemIndex, 1);
     },
-    replace: (state, action: PayloadAction<ItemProps>) => {
-      const selectItemIndex = state.data.findIndex(item => item.id === action.payload.id);
-      state.data.splice(selectItemIndex, 1, action.payload);
+    update: (state, action: PayloadAction<ItemProps>) => {
+      const index = state.data.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.data[index] = action.payload;
+      }
     },
     rollbackTodo: (state, action: PayloadAction<ItemProps>) => {
       const isUserAlreadyDefined = state.data.some(data => data.id === action.payload.id)

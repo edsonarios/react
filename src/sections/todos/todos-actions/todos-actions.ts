@@ -3,7 +3,7 @@ import { useAppDispatch } from "@/store/store";
 import { ItemProps, ItemStatus } from "@/types/todo-item";
 import { useEffect, useMemo } from "react";
 import { todoActions } from "@/slices/todos/todoSlice";
-import Cookies from "js-cookie";
+import { effectTransition } from "@/utils/utils";
 
 export const actionsTodo = () => {
     const dispatch = useAppDispatch();
@@ -14,12 +14,13 @@ export const actionsTodo = () => {
 
     const editDescriptionTodo = (item: ItemProps, description: string) => {
         onOffItem(null);
-        const itemtoEdit: ItemProps = {
+        effectTransition(item.id)
+        const itemtoEdited: ItemProps = {
             id: item.id,
             description: description,
             status: item.status,
         };
-        dispatch(editTodo({ itemtoEdit, item }));
+        dispatch(editTodo({ itemtoEdited, item }));
     };
 
     const removeTodo = (item: ItemProps) => {
@@ -28,17 +29,18 @@ export const actionsTodo = () => {
 
     const listTodos = () => {
         useEffect(() => {
-            dispatch(fetchTodos({ searchParam: '', token: Cookies.get('token') as string }));
+            dispatch(fetchTodos(''));
         }, []);
     }
 
     const editStatusTodo = (item: ItemProps) => {
-        const itemtoEdit: ItemProps = {
+        effectTransition(item.id)
+        const itemtoEdited: ItemProps = {
             id: item.id,
             description: item.description,
             status: item.status === ItemStatus.IN_PROGRESS ? ItemStatus.DONE : ItemStatus.IN_PROGRESS
         };
-        dispatch(editTodo({ itemtoEdit, item }));
+        dispatch(editTodo({ itemtoEdited, item }));
     }
 
     const sortedData = (data: ItemProps[]) => useMemo(() => {

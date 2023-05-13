@@ -7,30 +7,30 @@
     "serve": "vite"
   },
   "devDependencies": {
-    "@types/node": "^18.16.1",
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "@vitejs/plugin-react": "^3.1.0",
-    "typescript": "^5.0.2",
-    "vite": "^4.2.1"
+    "@types/node": "18.16.1",
+    "@types/react": "18.0.28",
+    "@types/react-dom": "18.0.11",
+    "@vitejs/plugin-react": "3.1.0",
+    "typescript": "5.0.2",
+    "vite": "4.2.1"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.8",
-    "@emotion/styled": "^11.10.8",
-    "@fontsource/roboto": "^4.5.8",
-    "@mui/icons-material": "^5.11.16",
-    "@mui/lab": "^5.0.0-alpha.128",
-    "@mui/material": "^5.12.2",
-    "@mui/styles": "^5.12.0",
-    "@reduxjs/toolkit": "^1.9.4",
-    "@types/js-cookie": "^3.0.3",
-    "js-cookie": "^3.0.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-redux": "^8.0.5",
-    "react-router-dom": "^6.10.0",
-    "react-transition-group": "^4.4.5",
-    "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2"
+    "@emotion/react": "11.10.8",
+    "@emotion/styled": "11.10.8",
+    "@fontsource/roboto": "4.5.8",
+    "@mui/icons-material": "5.11.16",
+    "@mui/lab": "5.0.0-alpha.128",
+    "@mui/material": "5.12.2",
+    "@mui/styles": "5.12.0",
+    "@reduxjs/toolkit": "1.9.4",
+    "@types/js-cookie": "3.0.3",
+    "js-cookie": "3.0.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-redux": "8.0.5",
+    "react-router-dom": "6.10.0",
+    "react-transition-group": "4.4.5",
+    "redux": "4.2.1",
+    "redux-thunk": "2.4.2"
   }
 }

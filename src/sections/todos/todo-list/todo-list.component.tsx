@@ -27,7 +27,7 @@ const TodoList = ({ }: Props) => {
 
   const renderNoDataMessage = () => {
     if (!loading && data.length === 0) {
-      return <div className="noItem">Error: No items</div>;
+      return <div className="noItem">No items</div>;
     }
     return null;
   }
@@ -41,8 +41,12 @@ const TodoList = ({ }: Props) => {
       }
       <TransitionGroup component={null}>
         {sortedData(data).map((item: ItemProps) => (
-          <CSSTransition key={item.id} classNames="item" timeout={300}>
-            <div className="item">
+          <CSSTransition
+            key={item.id}
+            classNames="item"
+            timeout={300}
+          >
+            <div className="item" data-updated={JSON.stringify(item)}>
               {activeItem?.id === item.id ? (
                 <TodoItemEdit item={item} />
               ) : (
