@@ -27,7 +27,8 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const AuthLoginPage = () => {
     const dispatch = useAppDispatch();
-    const { logging, errorSnackbar, message, typeAlert } = useAppSelector(state => state.auth);
+    const { logging, alert } = useAppSelector(state => state.auth);
+    const { errorSnackbar, message, typeAlert } = alert
     const { loginSubmit } = actionsAuth()
 
     const navigate = useNavigate();

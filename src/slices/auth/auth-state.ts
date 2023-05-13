@@ -1,13 +1,15 @@
 import { AlertColor } from '@mui/material';
-
-export type AuthProps = {
-    user: string;
-    token: string
-    logging: boolean
-    isLoggedIn: boolean
+export type AlertProps = {
     errorSnackbar: boolean
     message: string
     typeAlert: AlertColor
+}
+export type AuthProps = {
+    user: string
+    token: string
+    logging: boolean
+    isLoggedIn: boolean
+    alert: AlertProps
 }
 
 export const initialState: AuthProps = {
@@ -15,7 +17,9 @@ export const initialState: AuthProps = {
     token: '',
     logging: false,
     isLoggedIn: false,
-    errorSnackbar: false,
-    message: '',
-    typeAlert: "info"
-};
+    alert: {
+        errorSnackbar: false,
+        message: '',
+        typeAlert: 'info'
+    }
+}

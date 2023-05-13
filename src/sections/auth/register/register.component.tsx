@@ -24,7 +24,8 @@ const theme = createTheme();
 
 const AuthRegisterPage = () => {
     const dispatch = useAppDispatch();
-    const { logging, errorSnackbar, message, typeAlert } = useAppSelector(state => state.auth);
+    const { logging, alert } = useAppSelector(state => state.auth);
+    const { errorSnackbar, message, typeAlert } = alert
     const { registerSubmit } = actionsAuth()
 
     const [email, setEmail] = useState('');

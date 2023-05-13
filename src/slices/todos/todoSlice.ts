@@ -17,9 +17,11 @@ export const postTodo = createAsyncThunk(
       thunkApi.dispatch(todoActions.onOffItem(item));
       thunkApi.dispatch(todoActions.onOffFocusItem(true));
     } else {
-      thunkApi.dispatch(authActions.message(`Error: Fails creating item`));
-      thunkApi.dispatch(authActions.errorSnackbar(true));
-      thunkApi.dispatch(authActions.typeAlert("error"));
+      thunkApi.dispatch(authActions.alert({
+        errorSnackbar: true,
+        message: `Error: Fails creating item`,
+        typeAlert: 'error'
+      }));
     }
     return responseData;
   });
@@ -48,9 +50,11 @@ export const deleteTodo = createAsyncThunk(
     const responseData = response as Partial<responseProps>;
     if (!responseData.isSuccess) {
       thunkApi.dispatch(todoActions.rollbackTodo(item));
-      thunkApi.dispatch(authActions.message(`Error: Fails deleting item "${item.description}"`));
-      thunkApi.dispatch(authActions.errorSnackbar(true));
-      thunkApi.dispatch(authActions.typeAlert("error"));
+      thunkApi.dispatch(authActions.alert({
+        errorSnackbar: true,
+        message: `Error: Fails deleting item "${item.description}"`,
+        typeAlert: 'error'
+      }));
     }
     return responseData;
   });
@@ -65,9 +69,11 @@ export const editTodo = createAsyncThunk(
 
     if (!responseData.data) {
       thunkApi.dispatch(todoActions.update(item));
-      thunkApi.dispatch(authActions.message(`Error: Fails updating item "${item.description}"`));
-      thunkApi.dispatch(authActions.errorSnackbar(true));
-      thunkApi.dispatch(authActions.typeAlert("error"));
+      thunkApi.dispatch(authActions.alert({
+        errorSnackbar: true,
+        message: `Error: Fails updating item "${item.description}"`,
+        typeAlert: 'error'
+      }));
     }
     return responseData;
   });

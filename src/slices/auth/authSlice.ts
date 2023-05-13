@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authApi } from "@/api/auth-api";
 import { RegisterProps, LoginProps, loginResponseProps, registerResponseProps } from "@/types/auth";
-import { initialState } from "./auth-state";
-import { AlertColor } from '@mui/material';
+import { AlertProps, initialState } from "./auth-state";
 import { extractErrorMessage, extractToken } from "@/utils/utils";
 
 
@@ -29,9 +28,11 @@ export const login = createAsyncThunk(
             thunkApi.dispatch(authActions.isLogged(true));
         } else {
             const errorMessage = responseData.error?.data && extractErrorMessage(responseData.error.data);
-            thunkApi.dispatch(authActions.message('Login failed: ' + errorMessage));
-            thunkApi.dispatch(authActions.errorSnackbar(true));
-            thunkApi.dispatch(authActions.typeAlert("error"));
+            thunkApi.dispatch(authActions.alert({
+                errorSnackbar: true,
+                message: 'Login failed: ' + errorMessage,
+                typeAlert: 'error'
+            }));
         }
         return responseData;
     });
@@ -45,14 +46,18 @@ export const register = createAsyncThunk(
         const responseData = response as registerResponseProps;
 
         if (responseData.data) {
-            thunkApi.dispatch(authActions.message('Register successfull: ' + responseData.data.email));
-            thunkApi.dispatch(authActions.errorSnackbar(true));
-            thunkApi.dispatch(authActions.typeAlert("success"));
+            thunkApi.dispatch(authActions.alert({
+                errorSnackbar: true,
+                message: 'Register successfull: ' + responseData.data.email,
+                typeAlert: 'success'
+            }));
         } else {
             if (responseData.error) {
-                thunkApi.dispatch(authActions.message('Register failed: ' + responseData.error.data.message));
-                thunkApi.dispatch(authActions.errorSnackbar(true));
-                thunkApi.dispatch(authActions.typeAlert("error"));
+                thunkApi.dispatch(authActions.alert({
+                    errorSnackbar: true,
+                    message: 'Register failed: ' + responseData.error.data.message,
+                    typeAlert: 'error'
+                }));
             }
         }
         return responseData
@@ -88,14 +93,11 @@ const authSlice = createSlice({
         isLogged: (state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload
         },
+        alert: (state, action: PayloadAction<AlertProps>) => {
+            state.alert = action.payload
+        },
         errorSnackbar: (state, action: PayloadAction<boolean>) => {
-            state.errorSnackbar = action.payload
-        },
-        message: (state, action: PayloadAction<string>) => {
-            state.message = action.payload
-        },
-        typeAlert: (state, action: PayloadAction<AlertColor>) => {
-            state.typeAlert = action.payload
+            state.alert.errorSnackbar = action.payload
         },
     },
     extraReducers: (builder) => {

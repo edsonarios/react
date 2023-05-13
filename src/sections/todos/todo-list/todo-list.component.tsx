@@ -17,7 +17,7 @@ const TodoList = ({ }: Props) => {
   const { data, loading, activeItem } = useAppSelector(state => state.todo);
   const { listTodos, sortedData } = actionsTodo()
   const dispatch = useAppDispatch();
-  const { errorSnackbar, message, typeAlert } = useAppSelector(state => state.auth);
+  const { errorSnackbar, message, typeAlert } = useAppSelector(state => state.auth).alert;
 
   listTodos()
 
