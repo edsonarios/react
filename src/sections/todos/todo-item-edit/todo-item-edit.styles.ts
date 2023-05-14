@@ -12,7 +12,6 @@ export const Wrapper = styled.div`
 `;
 
 export const CustomTextField = styled(TextField)`
-  width: 700px;
   input {
     font-size: 24px;
     padding: 2px 10px;

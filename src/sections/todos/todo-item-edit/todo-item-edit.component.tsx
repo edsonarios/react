@@ -28,16 +28,17 @@ const TodoItemEdit = ({ item }: Props) => {
     <Wrapper>
       <TodoItemStatus item={item} />
       <form style={{ display: 'inline' }} onSubmit={() => editDescriptionTodo(item, value)}>
-        <CustomTextField
-          id={`todo-item-${item.id}`}
-          variant="outlined"
-          size="small"
-          autoFocus
-          value={value}
-          onChange={handleChangeDescription}
-          onBlur={() => onOffItem(null)}
-          onFocus={handleFocus}
-        />
+          <CustomTextField
+            id={`todo-item-${item.id}`}
+            variant="outlined"
+            size="small"
+            autoFocus
+            value={value}
+            onChange={handleChangeDescription}
+            onBlur={() => onOffItem(null)}
+            onFocus={handleFocus}
+            className="custom-field"
+          />
       </form>
     </Wrapper>
   );
