@@ -1,41 +1,70 @@
-import React, { useEffect } from "react";
+import React from "react";
 import TodoItemEdit from "../todo-item-edit/todo-item-edit.component";
 import TodoItem from "../todo-item/todo.item.component";
-import { useSelector, useDispatch } from 'react-redux';
-
 import CircularProgress from '@mui/material/CircularProgress';
 import { Box } from "@mui/system";
-import { AppDispatch, RootState } from "@/store/store";
-import { fetchTodos } from "@/slices/todos/todoSlice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { ItemProps } from "@/types/todo-item";
+import { actionsTodo } from "../todos-actions/todos-actions";
+import { errorAlert } from "@/slices/auth/authSlice";
+import ErrorSnackbar from "@/components/alert/error-snackbar";
+import { SnackbarCloseReason } from "@mui/material";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 type Props = {}
 
-const TodoList = ({}: Props) => {
-  const { data, loading, activeItem } = useSelector((state: RootState) => state.todo);
-  const dispatch = useDispatch<AppDispatch>();
-  
-  const loadData = () => {
-    dispatch(fetchTodos(''));
+const TodoList = ({ }: Props) => {
+  const { data, loading, activeItem } = useAppSelector(state => state.todo);
+  const { listTodos, sortedData } = actionsTodo()
+  const dispatch = useAppDispatch();
+  const { errorSnackbar, message, typeAlert } = useAppSelector(state => state.auth).alert;
+
+  listTodos()
+
+  const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
+    dispatch(errorAlert(false));
   };
+
+  const renderNoDataMessage = () => {
+    if (!loading && data.length === 0) {
+      return <div className="noItem">No items</div>;
+    }
+    return null;
+  }
 
   return (
     <>
       <button data-testid="startButton" onClick={loadData}></button>
       {loading &&
-      <Box textAlign="center">
-        <CircularProgress size={10} data-testid="progress" />
-      </Box>
+        <Box textAlign="center">
+          <CircularProgress size={40} />
+        </Box>
       }
-      {data.map((item: ItemProps) => (
-        <React.Fragment key={item.id}>
-          { activeItem?.id === item.id ? 
-            <TodoItemEdit item={item} /> :
-              <TodoItem item={item} />
-          }
-        </React.Fragment>
-      ))}
-    </>
+      <TransitionGroup component={null}>
+        {sortedData(data).map((item: ItemProps) => (
+          <CSSTransition
+            key={item.id}
+            classNames="item"
+            timeout={300}
+          >
+            <div className="item" data-updated={JSON.stringify(item)}>
+              {activeItem?.id === item.id ? (
+                <TodoItemEdit item={item} />
+              ) : (
+                <TodoItem item={item} />
+              )}
+            </div>
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
+      {renderNoDataMessage()}
+      <ErrorSnackbar
+        open={errorSnackbar}
+        message={message}
+        handleCloseSnackbar={handleCloseSnackbar}
+        typeAlert={typeAlert}
+      />
+    </React.Fragment>
   );
 };
 

@@ -1,3 +1,7 @@
+
+yarn.lock
+
+package-lock.json
 # dependencies
 node_modules/
 
@@ -7,5 +11,3 @@ build/
 
 # environment variable files
 .env
-.env.local
-.env.PROD

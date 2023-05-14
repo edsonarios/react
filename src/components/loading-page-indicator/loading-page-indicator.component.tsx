@@ -1,4 +1,3 @@
-import React from "react";
 
 type Props = {
   label?: string;
@@ -6,4 +5,4 @@ type Props = {
 
 const LoadingPageIndicator = ({ label="Loading..." }: Props) => <div>{label}</div>;
 
-export  default LoadingPageIndicator;
+export default LoadingPageIndicator;

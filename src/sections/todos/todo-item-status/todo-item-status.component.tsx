@@ -1,33 +1,18 @@
 
-import React from "react";
-import { useDispatch } from "react-redux";
-import { Types } from "@/reducer/actions";
 import { ItemProps, ItemStatus } from "@/types/todo-item";
-import { DoneStatus, InProgressStatus, StatusContainer } from "./todo-item.status.styles";
+import { actionsTodo } from "../todos-actions/todos-actions";
 
 type Props = {
   item: ItemProps;
 }
 
 const TodoItemStatus = ({ item }: Props) => {
-  const dispatch =  useDispatch();
-
-  const handleUpdateStatus = () => {
-    dispatch({
-      type: Types.Update,
-      payload: {
-        id: item.id,
-        dataUpdated: {
-          status: item.status === ItemStatus.IN_PROGRESS ? ItemStatus.DONE : ItemStatus.IN_PROGRESS
-        }
-      }
-    });
-  }
+  const { editStatusTodo } = actionsTodo()
 
   return (
-    <StatusContainer onClick={handleUpdateStatus} title="Update Status">
-      { item.status === ItemStatus.IN_PROGRESS ? <InProgressStatus /> : <DoneStatus /> }
-    </StatusContainer>
+    <div onClick={() => editStatusTodo(item)} title="Update Status"
+      className={`${item.status === ItemStatus.IN_PROGRESS ? 'inProgress' : 'done'}`}>
+    </div>
   );
 }
 
