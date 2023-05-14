@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 
+const HomePage = () => {
   return (
     <>
       <div>Home Page</div>
-      <PrimaryButton color="primary" onClick={handleClick} disabled={disabled} >Go to Todos</PrimaryButton>
+      <Link to="/todos">go to Todos</Link>
     </>
   );
 }

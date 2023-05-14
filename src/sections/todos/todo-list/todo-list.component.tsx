@@ -33,8 +33,7 @@ const TodoList = ({ }: Props) => {
   }
 
   return (
-    <>
-      <button data-testid="startButton" onClick={loadData}></button>
+    <React.Fragment>
       {loading &&
         <Box textAlign="center">
           <CircularProgress size={40} />

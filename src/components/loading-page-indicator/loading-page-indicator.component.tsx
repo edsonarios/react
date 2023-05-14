@@ -1,8 +1,4 @@
 
-type Props = {
-  label?: string;
-}
-
-const LoadingPageIndicator = ({ label="Loading..." }: Props) => <div>{label}</div>;
+const LoadingPageIndicator = () => <div>Loading...</div>;
 
 export default LoadingPageIndicator;
