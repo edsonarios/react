@@ -19,7 +19,7 @@ const AuthResetPasswordPage = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
+            <Container component="main">
                 <CssBaseline />
                 <Box
                     sx={{

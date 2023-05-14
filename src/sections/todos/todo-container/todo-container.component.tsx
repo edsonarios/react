@@ -17,15 +17,13 @@ type StateProps = {
 class TodoContainer extends React.Component<{}, StateProps> {
   render() {
     return (
-      <div className="todo-body">
-        <Container className="todoapp" maxWidth="xs">
-          <Calendar />
-          <Header title="Todos" />
-          <TodoList />
-          <Footer />
-          <LogoutButton />
-        </Container>
-      </div>
+      <Container className="todoapp">
+        <Calendar />
+        <Header title="Todos" />
+        <TodoList />
+        <Footer />
+        <LogoutButton />
+      </Container>
     );
   }
 }
