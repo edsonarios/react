@@ -20,7 +20,6 @@ const TodoList = ({ }: Props) => {
   const { errorSnackbar, message, typeAlert } = useAppSelector(state => state.auth).alert;
 
   listTodos()
-
   const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason: SnackbarCloseReason) => {
     dispatch(errorAlert(false));
   };
