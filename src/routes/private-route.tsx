@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { actionsAuth } from '@/sections/auth/auth-actions';
+import LoadingPageIndicator from '@/components/loading-page-indicator/loading-page-indicator.component';
 
 export const AuthenticatedRoute = (Component: React.ComponentType<any>, redirectTo: string = '/') => {
   const PrivateRouteWrapper: React.FC = (props) => {
@@ -8,7 +9,11 @@ export const AuthenticatedRoute = (Component: React.ComponentType<any>, redirect
     const location = useLocation();
 
     if (isAuthenticated()) {
-      return <Component {...props} />;
+      return (
+        <Suspense fallback={<LoadingPageIndicator />}>
+          <Component {...props} />
+        </Suspense>
+      );
     } else {
       return (
         <Navigate
@@ -18,7 +23,6 @@ export const AuthenticatedRoute = (Component: React.ComponentType<any>, redirect
       );
     }
   };
-
   return PrivateRouteWrapper;
 };
 
@@ -35,10 +39,12 @@ export const NoAuthenticatedRoute = (Component: React.ComponentType<any>, redire
         />
       );
     } else {
-      return <Component {...props} />;
-
+      return (
+        <Suspense fallback={<LoadingPageIndicator />}>
+          <Component {...props} />
+        </Suspense>
+      );
     }
   };
-
   return PrivateRouteWrapper;
 };
