@@ -19,9 +19,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<ProtectedLoginPage />} />
         <Route path="/todos" element={<ProtectedTodosPage />} />
-        <Route path="auth" element={<Outlet />}>
-          {AuthRoutes}
-        </Route>
+        <Route path="auth/*" element={<AuthRoutes />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Provider>
